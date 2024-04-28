@@ -19,7 +19,7 @@ async function main() {
 
     const Users = mongoose.model('Users', users);
     const out = await Users.find();
-    /*  */
+    /* ------------------------------------------------------------------ */
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }));
     app.set('views', path.join(__dirname, '/app/views'));
@@ -35,7 +35,7 @@ async function main() {
     app.get('/allchar', function (req, res) {
         res.render('allchar.ejs');
     });
-    /*  */
+    /* ------------------------------------------------------------------- */
     app.listen(3000, function () {
         console.log('app listening on port 3000!');
     });
