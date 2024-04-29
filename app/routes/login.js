@@ -8,4 +8,9 @@ router.post(
     user_controller.create_user
 );
 
+router.post(
+    "/login",
+    user_controller.login_user
+);
+
 module.exports = router;
