@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 
 const usersRouter = require("./routes/login");
+const testRoute = require('./routes/test');
 
 main().catch(err => console.log(err));
 
@@ -31,6 +32,7 @@ app.get('/allchar', function (req, res) {
 
 
 app.use("/users", usersRouter);
+app.use("/users", testRoute);
 
 
 /* ------------------------------------------------------------------- */

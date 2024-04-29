@@ -1,6 +1,6 @@
 const UserInstance = require("../models/user");
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const asyncHandler = require("express-async-handler");
 const saltRounds = 10;
 
@@ -29,10 +29,11 @@ exports.create_user = [
                         newUser
                         .save()
                         .then(() => {
-                            res.status(200).send(newUser);
+                            res.status(200).json({
+                                user: newUser
+                            });
                         })
                         .catch(err => {
-                            console.log(err);
                             res.status(500).json({
                                 error: err
                             });
@@ -42,7 +43,10 @@ exports.create_user = [
                 });
                 
             } else {
-                res.send("User already exists...");
+                res.json({
+                    success: false,
+                    message: "User already exists..."
+                });
             }
         })
     })
@@ -54,15 +58,32 @@ exports.login_user = [
         await UserInstance.findOne({ email: req.body.email })
             .then(existingUser => {
                 if (!existingUser) {
-                    res.send("User not exist");
+                    res.json({
+                        success: false,
+                        message: "User not exist"
+                    });
                 } else {
                     bcrypt.compare(req.body.password, existingUser.password)
                     .then(function(result) {
                         if (result==true) {
-                            //add token
-                            res.send(("User Authenticated"));
+                            
+                            const payload = {
+                                id: existingUser._id,
+                                email: existingUser.email
+                            };
+                            const token = jwt.sign(payload, 'SECRET_KEY', {
+                                expiresIn: '1h',
+                            });
+                        
+                            res.json({
+                                success: true,
+                                token: token
+                              });
                         } else {
-                            res.send("Unauthorized Access");
+                            res.json({
+                                success: false,
+                                message: "Unauthorized Access"
+                            });
                         }
                     })
                 }
