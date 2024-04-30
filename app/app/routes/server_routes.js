@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const verifyToken = require('../auth.js');
+const verifyToken = require('../../auth.js');
 const user_controller = require("../controllers/userController");
 const char_controller = require('../controllers/charController');
 router.post(
@@ -19,5 +19,5 @@ router.get('/test', verifyToken, (req, res) => {
 router.get('/', char_controller.getIndex);
 router.get('/allchar', char_controller.getAllChar);
 router.get('/newchar', char_controller.getNewChar);
-router.post('/newchar', char_controller.createCharacter);
+//router.post('/newchar', char_controller.createCharacter);
 module.exports = router;
