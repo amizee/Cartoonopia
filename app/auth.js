@@ -8,6 +8,7 @@ function authenticateToken(req, res, next) {
         var bearer = bearerHeader.split(" ");
         token = bearer[1];
         const decoded = jwt.verify(token, 'SECRET_KEY');
+        req.id = decoded.id;
         next();
     } catch (error) {
         res.status(401).json({ error: error });

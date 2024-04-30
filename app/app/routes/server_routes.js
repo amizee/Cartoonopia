@@ -13,7 +13,7 @@ router.post(
 );
 
 router.get('/test', verifyToken, (req, res) => {
-    res.status(200).json({ message: 'route accessed' });
+    res.status(200).json({ message: 'route accessed', id: req.id });
 });
 
 router.get('/', char_controller.getIndex);
