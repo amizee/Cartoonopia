@@ -33,9 +33,9 @@ const contributionSchema = new mongoose.Schema({
 var Contribution;
 
 if (mongoose.models.Contribution) {
-    Contribution = mongoose.model('User');
+    Contribution = mongoose.model('Contribution');
 } else {
-    Contribution = mongoose.model('User', contributionSchema);
+    Contribution = mongoose.model('Contribution', contributionSchema);
 }
 
 module.exports = Contribution;
