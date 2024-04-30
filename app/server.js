@@ -3,8 +3,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
-const usersRouter = require("./routes/login");
-const testRoute = require('./routes/test');
+const usersRouter = require("./app/routes/server_routes");
 
 main().catch(err => console.log(err));
 
@@ -19,7 +18,7 @@ app.set('views', path.join(__dirname, '/app/views'));
 app.use(express.static(path.join(__dirname, '/public')));
 
 /* Move to routes folder */
-app.get('/', function (req, res) {
+/* app.get('/', function (req, res) {
     res.render('index.ejs');
 });
 app.get('/newchar', function (req, res) {
@@ -27,15 +26,13 @@ app.get('/newchar', function (req, res) {
 });
 app.get('/allchar', function (req, res) {
     res.render('allchar.ejs');
-});
+}); */
 
-
-
-app.use("/users", usersRouter);
-app.use("/users", testRoute);
+app.use('/', usersRouter);
 
 
 /* ------------------------------------------------------------------- */
 app.listen(3000, function () {
     console.log('app listening on port 3000!');
 });
+module.exports = app;
