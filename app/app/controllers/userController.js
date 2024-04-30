@@ -22,5 +22,5 @@ exports.create_user = [
             console.log("Error is ", err.message);
         });
     }),
-  ];
+];
   

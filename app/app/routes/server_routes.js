@@ -11,5 +11,5 @@ router.post(
 router.get('/', char_controller.getIndex);
 router.get('/allchar', char_controller.getAllChar);
 router.get('/newchar', char_controller.getNewChar);
-
+router.post('/newchar', char_controller.createCharacter);
 module.exports = router;
