@@ -23,4 +23,16 @@ if (mongoose.models.Character) {
     Character = mongoose.model('Character', characterSchema)
 }
 
+/* characterSchema.statics.getAll = async function() {
+    try {
+        console.log("triggered!")
+        const all = await this.findAll();
+        console.log("all characters: ", all);
+        return all;
+    } catch (e) {
+        console.error('Error obtaining characters: ', error);
+        return null;
+    }
+};
+ */
 module.exports = Character;

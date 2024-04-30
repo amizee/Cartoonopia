@@ -8,14 +8,21 @@ const contributionInstance = require('../models/contribution');
 module.exports.getIndex = function(req, res) {
     res.render('../views/index.ejs');
 }
-module.exports.getAllChar = function(req, res) {
-    res.render('allchar.ejs');
-}
+module.exports.getAllChar = [
+    asyncHandler(async (req, res, next) => {
+        
+        const allChars = getAllCharacters();
+        res.status(200).json(allChars);
+    }),
+];
+
 module.exports.getNewChar = function(req, res) {
     res.render('newchar.ejs');
 }
 
 /* Create Character contribution*/
+/* Can add type of contribution to header maybe, then can change contribution
+body based off of it so i dont need 3 functions for that */
 module.exports.createCharacterContribution = [
     asyncHandler(async (req, res, next) => {
 
@@ -66,7 +73,7 @@ module.exports.createCharacterContribution = [
         });
 
         /* Query admin to see if the user adding is an admin */
-        if (adminInstance.isAdmin) {
+        if (isAdmin(userId) == true) {
             newContribution.status = "Accepted";
             newContribution.reviewed_by = userId;
         }
@@ -84,7 +91,7 @@ module.exports.createCharacterContribution = [
 /* Create character record from contribution */
 module.exports.createCharacterRecord = function(req, res) {
     
-}
+};
 
 async function generateContributionId() {
     const latest = await contributionInstance.findOne().sort({date: -1});
@@ -96,7 +103,31 @@ async function generateContributionId() {
     }
 
     return String(nextId);
+}
 
+async function getAllCharacters() {
+    try {
+        const all = await charInstance.find();
+        console.log("All chars: ", all);
+        return all;
+    } catch (error) {
+        console.error('Error obtaining characters: ', error);
+        return null;
+    }
+};
+
+async function isAdmin(userId) {
+    try {
+        const admin = await adminInstance.findById(userId);
+        console.log("is admin: ", admin);
+        if (admin == null) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error('Error checking admin status:', error);
+        return false;
+    }
 }
 
 /* Edit Character */

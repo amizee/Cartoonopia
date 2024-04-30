@@ -17,12 +17,12 @@ router.get('/test', verifyToken, (req, res) => {
 });
 
 router.get('/', char_controller.getIndex);
-router.get('/allchar', char_controller.getAllChar);
-router.get('/newchar', char_controller.getNewChar);
 
-router.post('/newchar', 
-    verifyToken, 
-    char_controller.createCharacterContribution
-);
+/* Get all characters */
+router.get('/allchar', verifyToken, char_controller.getAllChar);
+
+/* Add new character */
+router.get('/newchar', char_controller.getNewChar);
+router.post('/newchar', verifyToken, char_controller.createCharacterContribution);
 
 module.exports = router;
