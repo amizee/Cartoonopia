@@ -16,23 +16,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, '/app/views'));
 app.use(express.static(path.join(__dirname, '/public')));
-
-/* Move to routes folder */
-/* app.get('/', function (req, res) {
-    res.render('index.ejs');
-});
-app.get('/newchar', function (req, res) {
-    res.render('newchar.ejs');
-});
-app.get('/allchar', function (req, res) {
-    res.render('allchar.ejs');
-}); */
-
 app.use('/', usersRouter);
 
 
-/* ------------------------------------------------------------------- */
+/* ------------------------------------------------------------------ */
 app.listen(3000, function () {
-    console.log('app listening on port 3000!');
+    console.log('app listening on port 3000 at http://localhost:3000');
 });
 module.exports = app;
