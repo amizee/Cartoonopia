@@ -20,7 +20,7 @@ app.use('/', usersRouter);
 
 
 /* ------------------------------------------------------------------ */
-app.listen(3000, function () {
-    console.log('app listening on port 3000 at http://localhost:3000');
+app.listen(3001, function () {
+    console.log('backend app listening on port 3001 at http://localhost:3001');
 });
 module.exports = app;
