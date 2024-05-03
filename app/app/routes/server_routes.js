@@ -18,8 +18,9 @@ router.get('/test', verifyToken, (req, res) => {
 
 router.get('/', char_controller.getIndex);
 
-/* Get all characters */
-router.get('/allchar', verifyToken, char_controller.getAllChar);
+/* Get all characters (remove verifytoken for testing)*/
+//router.get('/allchar', verifyToken, char_controller.getAllChar);
+router.get('/allchar', char_controller.getAllChar);
 
 /* Individual Character page */
 router.get('/allchar/:id', verifyToken, char_controller.getOneChar);

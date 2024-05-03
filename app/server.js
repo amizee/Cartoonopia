@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 const usersRouter = require("./app/routes/server_routes");
@@ -13,6 +14,7 @@ async function main() {
 
 /* ------------------------------------------------------------------ */
 app.use(express.json())
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, '/app/views'));
 app.use(express.static(path.join(__dirname, '/public')));
@@ -20,7 +22,7 @@ app.use('/', usersRouter);
 
 
 /* ------------------------------------------------------------------ */
-app.listen(3001, function () {
-    console.log('backend app listening on port 3001 at http://localhost:3001');
+app.listen(5000, function () {
+    console.log('backend app listening on port 5000 at http://localhost:5000');
 });
 module.exports = app;
