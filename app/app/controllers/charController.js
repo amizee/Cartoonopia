@@ -11,8 +11,23 @@ module.exports.getIndex = function(req, res) {
 module.exports.getAllChar = [
     asyncHandler(async (req, res, next) => {
         
-        const allChars = getAllCharacters();
+        const allChars = await getAllCharacters();
         res.status(200).json(allChars);
+    }),
+];
+
+module.exports.getOneChar = [
+    asyncHandler(async (req, res, next) => {
+        try {
+            const character = await charInstance.findOne({id: req.params.id});
+            if (!character) {
+              return res.status(404).json({ message: 'Character not found' });
+            }
+            res.status(200).json(character);
+          } catch (error) {
+            console.error('Error obtaining character details: ', error);
+            res.status(500).json({ message: 'Error obtaining character details' });
+          }
     }),
 ];
 
