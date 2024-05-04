@@ -1,23 +1,33 @@
 const express = require("express");
 const router = express.Router();
 const verifyToken = require('../../auth.js');
-const user_controller = require("../controllers/userController");
+const login_controller = require("../controllers/loginController");
 const char_controller = require('../controllers/charController');
+const user_controller = require('../controllers/userController');
 router.post(
     "/signup",
-    user_controller.create_user
+    login_controller.create_user
 );
 router.post(
     "/login",
-    user_controller.login_user
+    login_controller.login_user
 );
 
 router.get('/test', verifyToken, (req, res) => {
     res.status(200).json({ message: 'route accessed', id: req.id });
 });
 
-router.get('/', char_controller.getIndex);
+router.get('/', user_controller.getIndex);
 
+router.delete('/contributions/:id', async(req, res) => {
+    try {
+        const contribution = await user_controller.deleteContributions(req.params.id);
+        res.redirect('/');
+    } catch (error) {
+        res.status(401).json({ error: error });
+    }
+})
+//null if contribution not found, maybe change error handling
 /* Get all characters */
 router.get('/allchar', verifyToken, char_controller.getAllChar);
 

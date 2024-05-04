@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const express = require('express');
 const app = express();
-
+const methodOverride = require('method-override');
 const usersRouter = require("./app/routes/server_routes");
 
 main().catch(err => console.log(err));
@@ -12,6 +12,7 @@ async function main() {
 }
 
 /* ------------------------------------------------------------------ */
+app.use(methodOverride('_method'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, '/app/views'));

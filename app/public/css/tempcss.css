@@ -1,0 +1,19 @@
+thead tr {
+    background-color: #F1F1F1;
+}
+
+th, td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+td:last-child {
+    border: none;
+}
+
+#contributions-table {
+    width: 100%;
+    text-align: left;
+    /*border: solid 1px black;*/
+    border-collapse: collapse;
+}
