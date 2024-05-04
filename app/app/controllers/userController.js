@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const favouritesInstance = require('../models/favourite');
 const contributionInstance = require('../models/contribution');
+const userInstance = require('../models/user');
 const axios = require("axios");
 
 module.exports.getIndex = [
@@ -50,5 +51,20 @@ module.exports.deleteContributions = async function(id) {
     } catch (error) {
         console.log(error);
     }
+}
+
+module.exports.getUsers = async function(query) {
+    const nameSplit = query.split(" ");
+    const firstname = nameSplit[0];
+    const lastname = nameSplit[1];
+    let filter;
+    if (lastname != null && lastname.length > 0) {
+        filter = {firstname: firstname, lastname: { $regex: lastname, $options: 'i' }};
+    } else {
+        filter = {firstname: { $regex: firstname, $options: 'i' }};
+    }
+    const users = await userInstance.find(filter);
+    console.log(users);
+    return users;
 }
 

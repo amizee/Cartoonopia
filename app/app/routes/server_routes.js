@@ -19,6 +19,13 @@ router.get('/test', verifyToken, (req, res) => {
 
 router.get('/', user_controller.getIndex);
 
+router.get('/users', async (req, res) => {
+    const query = req.query.value;
+    const results = await user_controller.getUsers(query); // Replace performSearch with your actual search function
+    // console.log("results", results)
+    res.json({ results });
+});
+
 router.delete('/contributions/:id', async(req, res) => {
     try {
         const contribution = await user_controller.deleteContributions(req.params.id);
