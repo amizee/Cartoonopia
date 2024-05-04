@@ -26,6 +26,10 @@ router.get('/users', async (req, res) => {
     res.json({ results });
 });
 
+router.get('/users/:id', async (req, res) => {
+    res.send("User " + req.params.id);
+});
+
 router.delete('/contributions/:id', async(req, res) => {
     try {
         const contribution = await user_controller.deleteContributions(req.params.id);
