@@ -23,7 +23,9 @@ router.get('/', char_controller.getIndex);
 router.get('/allchar', char_controller.getAllChar);
 
 /* Individual Character page */
-router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
+//router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
+router.get('/allchar/:id', char_controller.getOneChar);
+
 
 /* Add new character */
 router.get('/newchar', char_controller.getNewChar);
