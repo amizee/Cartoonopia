@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import api from './api.js';
 import { Container, Col, Row } from "react-bootstrap";
+import Home from './Home'
+import Login from './Login'
+import Register from './Register'
 
 function App() {
 	const [characters, setCharacters] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    // Fetch the user email and token from local storage
+    const user = JSON.parse(localStorage.getItem('user'))
+  
+    // If the token/email does not exist, mark the user as logged out
+    if (!user || !user.token) {
+      setLoggedIn(false)
+      return
+    }
+  }, [])
 
   useEffect(() => {
     async function fetchCharacters() {
@@ -21,18 +37,17 @@ function App() {
   }, []);
 
 	return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to My App</h1>
-        <nav>
-          <ul>
-            {characters.map(character => (
-              <li key={character._id}>{character.name}</li>
-            ))}
-          </ul>
-        </nav>
-      </header>
-    </div>
+    <Container>
+      <Row>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+            <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </BrowserRouter>
+      </Row>
+    </Container>
   );
 }
 
