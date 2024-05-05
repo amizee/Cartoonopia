@@ -60,12 +60,12 @@ module.exports.getUsers = async function(query) {
     let filter;
     if (lastname != null && lastname.length > 0) {
         filter = {
-            firstname: { $regex: new RegExp(firstname, 'i') }, // Case-insensitive regex match for firstname
-            lastname: { $regex: new RegExp(lastname, 'i') } // Case-insensitive regex match for lastname
+            firstname: { $regex: new RegExp(firstname, 'i') }, // case-insensitive search
+            lastname: { $regex: new RegExp(lastname, 'i') }
         };
     } else {
         filter = {
-            firstname: { $regex: new RegExp(firstname, 'i') }, // Case-insensitive regex match for firstname
+            firstname: { $regex: new RegExp(firstname, 'i') },
         };
     }
     const users = await userInstance.find(filter);
