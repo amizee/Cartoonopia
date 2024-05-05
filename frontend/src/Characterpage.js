@@ -3,7 +3,6 @@ import axios from 'axios';
 import api from './api.js';
 import { BrowserRouter, Link, useParams } from 'react-router-dom';
 
-
 function Characterpage() {
 	const [character, setCharacters] = useState(null);
     const { id } = useParams();
@@ -28,9 +27,19 @@ function Characterpage() {
         {character ? (
           <div>
             <h2>{character.name}</h2>
+
             <p>Subtitle: {character.subtitle}</p>
             <p>Description: {character.description}</p>
-            {/* Add more details as needed */}
+            <div id="stats">
+                <p>Strength: {character.strength}</p>
+                <p>Speed: {character.speed}</p>
+                <p>Skill: {character.skill}</p>
+                <p>Fear Factor: {character.fear_factor}</p>
+                <p>Power: {character.power}</p>
+                <p>Intelligence: {character.intelligence}</p>
+                <p>Wealth: {character.wealth}</p>
+            </div>
+            <Link to={`/allchar/${id}/edit`}>edit details</Link>
           </div>
         ) : (
           <p>Loading character details...</p>
