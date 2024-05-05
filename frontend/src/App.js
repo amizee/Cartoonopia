@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import api from './api.js';
+import { Container, Col, Row } from "react-bootstrap";
 
 function App() {
 	const [characters, setCharacters] = useState([]);
