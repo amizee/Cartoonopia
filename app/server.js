@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const methodOverride = require('method-override');
+
 const usersRouter = require("./app/routes/server_routes");
 
 main().catch(err => console.log(err));
@@ -13,7 +13,6 @@ async function main() {
 }
 
 /* ------------------------------------------------------------------ */
-app.use(methodOverride('_method'));
 app.use(express.json())
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
