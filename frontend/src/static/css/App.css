@@ -1,0 +1,15 @@
+.background-image-blur-whitewash {
+  position: fixed;
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat-y;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(15px) contrast(0.2) brightness(1.7);
+  z-index: -1;
+}

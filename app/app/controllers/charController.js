@@ -1,4 +1,5 @@
 const axios = require('axios');
+const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 
 const adminInstance = require('../models/admin');
@@ -6,9 +7,10 @@ const userInstance = require('../models/user');
 const charInstance = require('../models/character');
 const contributionInstance = require('../models/contribution');
 
-module.exports.getIndex = function(req, res) {
+/* module.exports.getIndex = function(req, res) {
     res.render('../views/index.ejs');
-}
+} */
+
 module.exports.getAllChar = [
     asyncHandler(async (req, res, next) => {
         
@@ -37,24 +39,21 @@ module.exports.getOneChar = [
 } */
 
 /* Create Character contribution*/
-/* Can add type of contribution to header maybe, then can change contribution
-body based off of it so i dont need 3 functions for that */
+
 module.exports.createCharacterContribution = [
     asyncHandler(async (req, res, next) => {
-
-
-
         const userEmail = req.body.data.user_email;
         console.log(userEmail);
         const userInfo = await userInstance.findOne({email: userEmail});
         const userId = userInfo._id;
+        const userObject = {
+            _id: userId
+        }
         console.log("found user id: ", userId);        
 
         console.log("request body: ", req.body);
         const newContributionId = await generateContributionId();
         console.log("new contribution id: ", newContributionId);
-
-        
 
         const currentDate = new Date();
         const { 
@@ -116,7 +115,7 @@ module.exports.createCharacterContribution = [
             
         const newContribution = new contributionInstance({
             contribution_id: newContributionId,
-            user_id: userId,
+            user_id: userObject,
             action: actionType,
             status: "Pending", //depends on user or admin
             reviewed_by: null,
@@ -142,11 +141,6 @@ module.exports.createCharacterContribution = [
         });
     }),
 ];
-
-/* Create character record from contribution */
-module.exports.createCharacterRecord = function(req, res) {
-    
-};
 
 async function generateContributionId() {
     const latest = await contributionInstance.findOne().sort({date: -1});

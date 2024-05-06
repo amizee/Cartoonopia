@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import api from './api.js';
 import { Link } from 'react-router-dom';
 
+import './static/css/App.css';
+
 
 function Allcharacters() {
 	const [characters, setCharacters] = useState([]);
@@ -36,6 +38,9 @@ function Allcharacters() {
             </ul>
           </nav>
         </header>
+        <body>
+          <div class="background-image-blur-whitewash"></div>
+        </body>
       </div>
   );
 }
