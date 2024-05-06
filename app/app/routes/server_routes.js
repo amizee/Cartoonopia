@@ -26,12 +26,12 @@ router.get('/users', async (req, res) => {
 });
 
 /* Get all characters (remove verifytoken for testing)*/
-//router.get('/allchar', verifyToken, char_controller.getAllChar);
-router.get('/allchar', char_controller.getAllChar);
+router.get('/allchar', verifyToken, char_controller.getAllChar);
+//router.get('/allchar', char_controller.getAllChar);
 
 /* Individual Character page */
-//router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
-router.get('/allchar/:id', char_controller.getOneChar);
+router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
+//router.get('/allchar/:id', char_controller.getOneChar);
 
 router.get('/users/:id', async (req, res) => {
     res.send("User " + req.params.id);
@@ -50,7 +50,11 @@ router.delete('/contributions/:id', async(req, res) => {
 router.get('/allchar', verifyToken, char_controller.getAllChar);
 
 /* Add new character */
-router.get('/newchar', char_controller.getNewChar);
+//router.get('/newchar', char_controller.getNewChar);
 router.post('/newchar', verifyToken, char_controller.createCharacterContribution);
+
+/* Edit/delete character */
+router.post('/allchar/:id/edit', verifyToken, char_controller.createCharacterContribution);
+router.post('/allchar/:id/delete', verifyToken, char_controller.createCharacterContribution);
 
 module.exports = router;
