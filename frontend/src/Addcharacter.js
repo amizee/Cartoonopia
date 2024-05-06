@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import api from './api.js';
 import { useNavigate } from 'react-router-dom';
 
+import './static/css/App.css';
+
+
 function Addcharacter({ onSubmit }) {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -49,6 +52,9 @@ function Addcharacter({ onSubmit }) {
 
   return (
     <div>
+      <body>
+        <div class="background-image-blur-whitewash"></div>
+      </body>
       <h1>Add new Character</h1>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>

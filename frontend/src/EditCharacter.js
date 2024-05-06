@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import api from './api.js';
 import { useParams, useNavigate } from 'react-router-dom';
 
+import './static/css/App.css';
+
+
 function EditCharacter({ onSubmit }) {
     const navigate = useNavigate();
     const [character, setCharacter] = useState(null);
@@ -101,6 +104,9 @@ function EditCharacter({ onSubmit }) {
 
   return (
     <div>
+      <body>
+        <div class="background-image-blur-whitewash"></div>
+      </body>
       <h1>Edit Character</h1>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>

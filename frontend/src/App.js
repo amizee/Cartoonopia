@@ -9,6 +9,7 @@ import Characterpage from './Characterpage';
 import Home from './Home';
 import EditCharacter from './EditCharacter';
 import Addcharacter from './Addcharacter.js';
+import Contributions from './Contributions';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -39,6 +40,8 @@ function App() {
             <Route path="/allchar/:id" element={ <Characterpage/> } />
             <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
             <Route path="/newchar" element={ <Addcharacter/> } />
+            <Route path="/contributions" element={ <Contributions/> } />
+
           </Routes>
         </BrowserRouter>
       </Row>
