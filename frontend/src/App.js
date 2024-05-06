@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import api from './api.js';
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Landing from './Landing'
 import Login from './Login'
 import Register from './Register'
@@ -9,6 +8,7 @@ import Allcharacters from './Allcharacters';
 import Characterpage from './Characterpage';
 import Home from './Home';
 import EditCharacter from './EditCharacter';
+import Addcharacter from './Addcharacter.js';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -38,6 +38,7 @@ function App() {
             <Route exact path="/allchar" element={ <Allcharacters/> } />
             <Route path="/allchar/:id" element={ <Characterpage/> } />
             <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
+            <Route path="/newchar" element={ <Addcharacter/> } />
           </Routes>
         </BrowserRouter>
       </Row>

@@ -32,7 +32,11 @@ router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
 
 
 /* Add new character */
-router.get('/newchar', char_controller.getNewChar);
+//router.get('/newchar', char_controller.getNewChar);
 router.post('/newchar', verifyToken, char_controller.createCharacterContribution);
+
+/* Edit/delete character */
+router.post('/allchar/:id/edit', verifyToken, char_controller.createCharacterContribution);
+router.post('/allchar/:id/delete', verifyToken, char_controller.createCharacterContribution);
 
 module.exports = router;
