@@ -4,20 +4,19 @@
     padding: 50px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-top: 20vh; /* Adjust vertical margin to center vertically */
-    text-align: center; /* Center the content horizontally */
+    margin-top: 20vh;
 }
 
 .login-container h2 {
-    margin-bottom: 20px; /* Add space below the title */
+    margin-bottom: 20px;
 }
 
 .form-group {
-    margin-bottom: 20px; /* Add space between form groups */
+    margin-bottom: 20px; 
 }
 
 .btn-login {
-    width: 100%; /* Make the button full-width */
+    width: 100%;
   }
 
 .text-center {

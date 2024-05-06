@@ -22,8 +22,7 @@ function App() {
           <Route path="/allchar/:id" element={ <Characterpage/> } />
           <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
         </Route>
-        <Route path='/' element={<Landing/>}/>
-        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={<Login/>} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
