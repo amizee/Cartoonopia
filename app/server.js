@@ -1,42 +1,28 @@
 const mongoose = require('mongoose');
 const path = require('path');
 const express = require('express');
-
+const cors = require('cors');
 const app = express();
+
+const usersRouter = require("./app/routes/server_routes");
 
 main().catch(err => console.log(err));
 
 async function main() {
-    /* Move to Models folder */
     await mongoose.connect('mongodb+srv://kevin:hGDMKGJ0cZVWonkG@cluster0.v5i7fte.mongodb.net/characters');
-    const users = new mongoose.Schema({
-        firstname: String,
-        lastname: String,
-        email: String,
-        password: String
-        
-    });
-
-    const Users = mongoose.model('Users', users);
-    const out = await Users.find();
-    /*  */
-    app.use(express.json())
-    app.use(express.urlencoded({ extended: true }));
-    app.set('views', path.join(__dirname, '/app/views'));
-    app.use(express.static(path.join(__dirname, '/public')));
-
-    /* Move to routes folder */
-    app.get('/', function (req, res) {
-        res.render('index.ejs');
-    });
-    app.get('/newchar', function (req, res) {
-        res.render('newchar.ejs');
-    });
-    app.get('/allchar', function (req, res) {
-        res.render('allchar.ejs');
-    });
-    /*  */
-    app.listen(3000, function () {
-        console.log('app listening on port 3000!');
-    });
 }
+
+/* ------------------------------------------------------------------ */
+app.use(express.json())
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.set('views', path.join(__dirname, '/app/views'));
+app.use(express.static(path.join(__dirname, '/public')));
+app.use('/', usersRouter);
+
+
+/* ------------------------------------------------------------------ */
+app.listen(5000, function () {
+    console.log('backend app listening on port 5000 at http://localhost:5000');
+});
+module.exports = app;
