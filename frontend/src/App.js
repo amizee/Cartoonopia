@@ -13,29 +13,20 @@ import Protected from './Protected';
 function App() {
   
 	return (
-    <Container>
-      <Row>
-        <BrowserRouter>
-          <Routes>
+    <BrowserRouter>
+      <Routes>
 
-            <Route element = {<Protected/>}>
-              <Route path='/home' element={<Home/>}/>
-              <Route exact path="/allchar" element={ <Allcharacters/> } />
-              <Route path="/allchar/:id" element={ <Characterpage/> } />
-              <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
-            </Route>
-
-            <Route path='/' element={<Landing/>}/>
-            <Route path="/login" element={<Login/>} />
-            <Route path="/register" element={<Register />} />
-
-            
-
-          </Routes>
-        </BrowserRouter>
-      </Row>
-    </Container>
-    
+        <Route element = {<Protected/>}>
+          <Route path='/home' element={<Home/>}/>
+          <Route exact path="/allchar" element={ <Allcharacters/> } />
+          <Route path="/allchar/:id" element={ <Characterpage/> } />
+          <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
+        </Route>
+        <Route path='/' element={<Landing/>}/>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

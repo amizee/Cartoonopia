@@ -1,0 +1,25 @@
+.login-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20vh; /* Adjust vertical margin to center vertically */
+    text-align: center; /* Center the content horizontally */
+}
+
+.login-container h2 {
+    margin-bottom: 20px; /* Add space below the title */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Add space between form groups */
+}
+
+.btn-login {
+    width: 100%; /* Make the button full-width */
+  }
+
+.text-center {
+    padding: 5%;
+  }

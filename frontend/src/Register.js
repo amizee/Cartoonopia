@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   // initial state
@@ -10,6 +11,11 @@ const Register = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
 
+  const navigate = useNavigate()
+
+  const onButtonClickLogin = () => {
+      navigate('/login');
+  };
 
   const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
@@ -45,6 +51,15 @@ const Register = () => {
   return (
     <>
         <h2>Register</h2>
+
+        <div className={'buttonContainer'}>
+          <Button
+            className={'landingButton'}
+            onClick={onButtonClickLogin}
+          >Log in
+          </Button>
+        </div>
+
         <Form onSubmit={(e) => handleSubmit(e)}>
 
         <Form.Group>
