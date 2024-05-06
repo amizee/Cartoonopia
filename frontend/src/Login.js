@@ -26,10 +26,9 @@ const Login = (props) => {
     axios(config)
       .then((r) => {
         if (r.data.success) {
-          localStorage.setItem('user', JSON.stringify({ email, token: r.token }))
+          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token }))
           props.setLoggedIn(true)
           props.setEmail(email)
-          //change navigate to character homepage
           navigate('/home')
         } else {
           window.alert('Email or password incorrect')

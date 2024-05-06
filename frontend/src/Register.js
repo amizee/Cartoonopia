@@ -29,10 +29,11 @@ const Register = () => {
 
     axios(config)
       .then((r) => {
-        if (r.status === 200) {
-            setRegister(true);
-        } else {
-            window.alert("Error: " + r.data.message);
+
+        if (r.data.success === false) {
+          window.alert("Error: " + r.data.message);
+        } else if (r.status === 200) {
+          setRegister(true);
         }
         
       })
