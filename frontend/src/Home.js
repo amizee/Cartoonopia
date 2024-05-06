@@ -1,49 +1,21 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import api from './api.js';
+import { BrowserRouter, Link } from 'react-router-dom';
 
-const Home = (props) => {
-  const { loggedIn, email } = props
-  const navigate = useNavigate()
 
-  const onButtonClickLogin = () => {
-    if (loggedIn) {
-        localStorage.removeItem('user')
-        props.setLoggedIn(false)
-      } else {
-        navigate('/login')
-      }
-  }
+function Home() {
 
-  const onButtonClickSignup = () => {
-    if (loggedIn) {
-        window.alert("You are logged in")
-    } else {
-        navigate('/register')
-    }
-  }
-
-  return (
-    <div className="mainContainer">
-      <div className={'buttonContainer'}>
-        <input
-          className={'inputButton'}
-          type="button"
-          onClick={onButtonClickLogin}
-          value={loggedIn ? 'Log out' : 'Log in'}
-        />
-        {loggedIn ? <div>Your email address is {email}</div> : <div />}
+	return (
+      <div className="App">
+        <header className="App-header">
+          <h1>Welcome to My App</h1>
+          <nav>
+            <Link to={`/allchar`}>All Characters</Link>
+          </nav>
+        </header>
       </div>
-
-      <div className={'buttonContainer'}>
-        <input
-          className={'inputButton'}
-          type="button"
-          onClick={onButtonClickSignup}
-          value={'Sign up'}
-        />
-      </div>
-    </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

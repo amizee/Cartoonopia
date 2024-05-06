@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import api from './api.js';
 import { Container, Col, Row } from "react-bootstrap";
-import Home from './Home'
+import Landing from './Landing'
 import Login from './Login'
 import Register from './Register'
+import Allcharacters from './Allcharacters';
+import Characterpage from './Characterpage';
+import Home from './Home';
+import EditCharacter from './EditCharacter';
 
 function App() {
-	const [characters, setCharacters] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false)
   const [email, setEmail] = useState('')
 
@@ -22,32 +25,24 @@ function App() {
     }
   }, [])
 
-  useEffect(() => {
-    async function fetchCharacters() {
-      try {
-        const response = await api.get('/allchar');
-				console.log(response);
-        setCharacters(response.data);
-      } catch (error) {
-        console.error('Error fetching characters:', error);
-      }
-    }
-
-    fetchCharacters();
-  }, []);
 
 	return (
     <Container>
       <Row>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+            <Route path="/" element={<Landing email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
             <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
             <Route path="/register" element={<Register />} />
+            <Route exact path="/home" element={ <Home/> } />
+            <Route exact path="/allchar" element={ <Allcharacters/> } />
+            <Route path="/allchar/:id" element={ <Characterpage/> } />
+            <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
           </Routes>
         </BrowserRouter>
       </Row>
     </Container>
+    
   );
 }
 
