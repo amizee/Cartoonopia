@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const verifyToken = require('../../auth.js');
-const login_controller = require("../controllers/loginController");
+const user_controller = require("../controllers/userController");
 const char_controller = require('../controllers/charController');
-const user_controller = require('../controllers/userController');
 router.post(
     "/signup",
-    login_controller.create_user
+    user_controller.create_user
 );
 router.post(
     "/login",
-    login_controller.login_user
+    user_controller.login_user
 );
 
 router.get('/test', verifyToken, (req, res) => {
@@ -25,6 +24,14 @@ router.get('/users', async (req, res) => {
     // console.log("results", results)
     res.json({ results });
 });
+
+/* Get all characters (remove verifytoken for testing)*/
+//router.get('/allchar', verifyToken, char_controller.getAllChar);
+router.get('/allchar', char_controller.getAllChar);
+
+/* Individual Character page */
+//router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
+router.get('/allchar/:id', char_controller.getOneChar);
 
 router.get('/users/:id', async (req, res) => {
     res.send("User " + req.params.id);

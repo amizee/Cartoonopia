@@ -8,8 +8,23 @@ const contributionInstance = require('../models/contribution');
 module.exports.getAllChar = [
     asyncHandler(async (req, res, next) => {
         
-        const allChars = getAllCharacters();
+        const allChars = await getAllCharacters();
         res.status(200).json(allChars);
+    }),
+];
+
+module.exports.getOneChar = [
+    asyncHandler(async (req, res, next) => {
+        try {
+            const character = await charInstance.findOne({id: req.params.id});
+            if (!character) {
+              return res.status(404).json({ message: 'Character not found' });
+            }
+            res.status(200).json(character);
+          } catch (error) {
+            console.error('Error obtaining character details: ', error);
+            res.status(500).json({ message: 'Error obtaining character details' });
+          }
     }),
 ];
 
@@ -35,6 +50,16 @@ module.exports.createCharacterContribution = [
         console.log("request body: ", req.body);
         const newContributionId = await generateContributionId();
         console.log("new contribution id: ", newContributionId);
+
+        let actionType = "AddCharacter"; // Default action type
+
+        // Check if the request path ends with "/edit" or "/delete"
+        if (req.path.endsWith("/edit")) {
+            actionType = "EditCharacter";
+        } else if (req.path.endsWith("/delete")) {
+            actionType = "DeleteCharacter";
+        }
+
         const currentDate = new Date();
         const { name, 
             subtitle, 
@@ -45,12 +70,13 @@ module.exports.createCharacterContribution = [
             fearFactor, 
             power, 
             intelligence, 
-            wealth } = req.body;
+            wealth,
+            image_url } = req.body;
             
         const newContribution = new contributionInstance({
             contribution_id: newContributionId,
             user_id: userId,
-            action: "AddCharacter",
+            action: actionType,
             status: "Pending", //depends on user or admin
             reviewed_by: null,
             date: currentDate,
@@ -58,7 +84,7 @@ module.exports.createCharacterContribution = [
                 id: name,
                 subtitle: subtitle,
                 description: description,
-                image_url: "placeholder",
+                image_url: image_url,
                 strength: strength,
                 speed: speed,
                 skill: skill,
@@ -73,6 +99,8 @@ module.exports.createCharacterContribution = [
         if (isAdmin(userId) == true) {
             newContribution.status = "Accepted";
             newContribution.reviewed_by = userId;
+            /* Call function to create character object somewhere here */
+            
         }
 
         await newContribution.save()
