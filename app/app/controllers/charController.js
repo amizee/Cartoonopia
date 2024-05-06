@@ -7,10 +7,6 @@ const userInstance = require('../models/user');
 const charInstance = require('../models/character');
 const contributionInstance = require('../models/contribution');
 
-/* module.exports.getIndex = function(req, res) {
-    res.render('../views/index.ejs');
-} */
-
 module.exports.getAllChar = [
     asyncHandler(async (req, res, next) => {
         
