@@ -30,7 +30,7 @@ const Login = (props) => {
           props.setLoggedIn(true)
           props.setEmail(email)
           //change navigate to character homepage
-          navigate('/')
+          navigate('/home')
         } else {
           window.alert('Email or password incorrect')
         }

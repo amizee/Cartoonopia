@@ -10,7 +10,10 @@ function Allcharacters() {
   useEffect(() => {
     async function fetchCharacters() {
       try {
-        const response = await api.get('/allchar');
+        const user = JSON.parse(localStorage.getItem('user'));
+        console.log(user);
+        const response = await api.get('/allchar', { headers: {"Authorization" : `Bearer ${user.token}`} });
+        //const response = await api.get('/allchar');
         console.log(response);
         setCharacters(response.data);
       } catch (error) {
