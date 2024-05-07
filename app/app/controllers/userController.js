@@ -1,81 +1,95 @@
+const UserInstance = require("../models/user");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const asyncHandler = require("express-async-handler");
-const favouriteInstance = require('../models/favourite');
-const contributionInstance = require('../models/contribution');
-const userInstance = require('../models/user');
-const axios = require("axios");
-const mongoose = require("mongoose");
+const saltRounds = 10;
 
-module.exports.getIndex = [
+exports.create_user = [
     asyncHandler(async (req, res, next) => {
-        const favourites = await getFavourites(req.headers['authorization']);
-        console.log(favourites);
-        const contributions = await getContributions(req.headers['authorization']);
-        // console.log(contributions);
-        // res.render('../views/index.ejs', {characters: ['superman', 'batman'], contributions: [{action: "EditCharacter", description: "placeholder", date: '2024-05-02', status: 'pending', id: 14},
-        //         {action: "AddCharacter", description: "placeholder2", date: '2024-05-03', status: 'approved', id: 13}]});
-        res.render('../views/index.ejs', {characters: ['superman', 'batman'], contributions: contributions});
-    }),
+
+        var newUser = new UserInstance({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: req.body.password
+        });
+        
+
+        await UserInstance.findOne({ email: newUser.email })
+        .then(async existingUser => {
+            if (!existingUser) {
+                bcrypt.hash(newUser.password, saltRounds, (err, hash) => {
+                    if (err) {
+                        return res.status(500).json({
+                            error: err
+                        });
+
+                    } else {
+                        newUser.password = hash;
+                        newUser
+                        .save()
+                        .then(() => {
+                            res.status(200).json({
+                                user: newUser
+                            });
+                        })
+                        .catch(err => {
+                            res.status(500).json({
+                                error: err
+                            });
+                        });
+                    }
+                    
+                });
+                
+            } else {
+                res.json({
+                    success: false,
+                    message: "User already exists..."
+                });
+            }
+        })
+    })
+]; 
+
+exports.login_user = [
+    asyncHandler(async (req, res, next) => {
+        
+        await UserInstance.findOne({ email: req.body.email })
+            .then(existingUser => {
+                if (!existingUser) {
+                    res.json({
+                        success: false,
+                        message: "User not exist"
+                    });
+                } else {
+                    bcrypt.compare(req.body.password, existingUser.password)
+                    .then(function(result) {
+                        if (result==true) {
+                            
+                            const payload = {
+                                id: existingUser._id,
+                                email: existingUser.email
+                            };
+                            const token = jwt.sign(payload, 'SECRET_KEY', {
+                                expiresIn: '1h',
+                            });
+                        
+                            res.json({
+                                success: true,
+                                token: token
+                              });
+                        } else {
+                            res.json({
+                                success: false,
+                                message: "Unauthorized Access"
+                            });
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+            console.log("Error is ", err.message);
+            });
+    })
 ];
-
-async function getFavourites(token) {
-    // const response = await axios.get('http://localhost:5000/test', {
-    //     headers: {
-    //         Authorization: token
-    //     }
-    // });
-
-    // const userId = response.data.id;
-    const userId ='663366f2cae4641d62fd97a2';
-    // const userId = new mongoose.Types.ObjectId('663366f2cae4641d62fd97a2');
-    const query = { 'user_id._id': userId };
-    const favourites = await favouriteInstance.find();
-    // const favourites = await favouriteInstance.find({user_id: userId}).populate('user_id').exec();
-    return favourites;
-}
-
-async function getContributions(token) {
-    // const response = await axios.get('http://localhost:3000/test', {
-    //     headers: {
-    //         Authorization: token
-    //     }
-    // });
-
-    // const userId = response.data.id;
-    try {
-        const contributions = await contributionInstance.find({user_id: '663366f2cae4641d62fd97a2'}).populate('user_id').exec();
-        return contributions;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-module.exports.deleteContributions = async function(id) {
-    try {
-        const contribution = await contributionInstance.findOneAndDelete({contribution_id: id});
-        console.log("Deleted", contribution);
-        return contribution;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-module.exports.getUsers = async function(query) {
-    const nameSplit = query.split(" ");
-    const firstname = nameSplit[0];
-    const lastname = nameSplit[1];
-    let filter;
-    if (lastname != null && lastname.length > 0) {
-        filter = {
-            firstname: { $regex: new RegExp(firstname, 'i') }, // case-insensitive search
-            lastname: { $regex: new RegExp(lastname, 'i') }
-        };
-    } else {
-        filter = {
-            firstname: { $regex: new RegExp(firstname, 'i') },
-        };
-    }
-    const users = await userInstance.find(filter);
-    console.log(users);
-    return users;
-}
-

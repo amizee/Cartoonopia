@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const verifyToken = require('../../auth.js');
-const user_controller = require("../controllers/userController");
+const user_controller = require("../controllers/homeController");
 const char_controller = require('../controllers/charController');
-const login_controller = require("../controllers/loginController");
+const login_controller = require("../controllers/userController");
 router.post(
     "/signup",
     login_controller.create_user
