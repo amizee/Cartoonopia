@@ -6,6 +6,7 @@ const adminInstance = require('../models/admin');
 const userInstance = require('../models/user');
 const charInstance = require('../models/character');
 const contributionInstance = require('../models/contribution');
+const contributionController = require('./contributionController');
 
 /* module.exports.getIndex = function(req, res) {
     res.render('../views/index.ejs');
@@ -52,7 +53,6 @@ module.exports.getOneChar = [
 } */
 
 /* Create Character contribution*/
-
 module.exports.createCharacterContribution = [
     asyncHandler(async (req, res, next) => {
         const userEmail = req.body.data.user_email;
@@ -136,18 +136,15 @@ module.exports.createCharacterContribution = [
             data: data
         });
 
-        /* Query admin to see if the user adding is an admin */
-        if (isAdmin(userId) == true) {
-            newContribution.status = "Accepted";
-            newContribution.reviewed_by = userObject;
-            /* Call function to create character object somewhere here */
-            
-        }
-
         await newContribution.save()
-            .then(() => {
+            .then( async () => {
                 console.log("Saved new contribution");
                 console.log(newContribution);
+                if (isAdmin(userId)) {
+                    const updateFields = {"$set": {status: "Accepted", reviewed_by: userObject}}
+                    await contributionInstance.findOneAndUpdate({contribution_id: newContributionId}, updateFields);
+                    await contributionController.handleContribution(newContributionId);
+                }
                 res.status(200).send(newContribution);
             }).catch (err => {
                 console.log("Error saving contribution: ", err.message);
@@ -182,10 +179,10 @@ async function isAdmin(userId) {
     try {
         const admin = await adminInstance.findById(userId);
         console.log("is admin: ", admin);
-        if (admin == null) {
-            return false;
+        if (admin) {
+            return true;
         }
-        return true;
+        return false;
     } catch (error) {
         console.error('Error checking admin status:', error);
         return false;
