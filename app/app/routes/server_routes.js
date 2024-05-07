@@ -3,13 +3,14 @@ const router = express.Router();
 const verifyToken = require('../../auth.js');
 const user_controller = require("../controllers/userController");
 const char_controller = require('../controllers/charController');
+const login_controller = require("../controllers/loginController");
 router.post(
     "/signup",
-    user_controller.create_user
+    login_controller.create_user
 );
 router.post(
     "/login",
-    user_controller.login_user
+    login_controller.login_user
 );
 
 router.get('/test', verifyToken, (req, res) => {

@@ -1,12 +1,14 @@
 const asyncHandler = require("express-async-handler");
-const favouritesInstance = require('../models/favourite');
+const favouriteInstance = require('../models/favourite');
 const contributionInstance = require('../models/contribution');
 const userInstance = require('../models/user');
 const axios = require("axios");
+const mongoose = require("mongoose");
 
 module.exports.getIndex = [
     asyncHandler(async (req, res, next) => {
-        // const favourites = getFavourites(req.headers['authorization']);
+        const favourites = await getFavourites(req.headers['authorization']);
+        console.log(favourites);
         const contributions = await getContributions(req.headers['authorization']);
         // console.log(contributions);
         // res.render('../views/index.ejs', {characters: ['superman', 'batman'], contributions: [{action: "EditCharacter", description: "placeholder", date: '2024-05-02', status: 'pending', id: 14},
@@ -16,14 +18,18 @@ module.exports.getIndex = [
 ];
 
 async function getFavourites(token) {
-    const response = await axios.get('http://localhost:3000/test', {
-        headers: {
-            Authorization: token
-        }
-    });
+    // const response = await axios.get('http://localhost:5000/test', {
+    //     headers: {
+    //         Authorization: token
+    //     }
+    // });
 
-    const userId = response.data.id;
-    const favourites = await favouritesInstance.find({user_id: userId}).populate('user_id').exec();
+    // const userId = response.data.id;
+    const userId ='663366f2cae4641d62fd97a2';
+    // const userId = new mongoose.Types.ObjectId('663366f2cae4641d62fd97a2');
+    const query = { 'user_id._id': userId };
+    const favourites = await favouriteInstance.find();
+    // const favourites = await favouriteInstance.find({user_id: userId}).populate('user_id').exec();
     return favourites;
 }
 
