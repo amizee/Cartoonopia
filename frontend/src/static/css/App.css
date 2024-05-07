@@ -17,3 +17,24 @@
 .App {
   background-color: transparent;
 }
+
+.top-bar {
+  display: flex;
+  justify-content: flex-start; /* Distribute items horizontally */
+  align-items: center; /* Center items vertically */
+  padding: 10px;
+  background-color: rgba(34, 29, 29, 0.7);
+}
+
+.nav-button {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    background-color: #8b8b8b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 8%;
+}
+
