@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
+const Admin = require("./app/models/admin");
 
 function authenticateToken(req, res, next) {
     const bearerHeader = req.header('Authorization');
@@ -9,7 +11,15 @@ function authenticateToken(req, res, next) {
         token = bearer[1];
         const decoded = jwt.verify(token, 'SECRET_KEY');
         req.id = decoded.id;
-        next();
+
+        Admin.findOne({ _id: new ObjectId(decoded.id) })
+        .then(existingUser => {
+            if (existingUser) {
+                next();
+            } else {
+                res.status(401).json({message: "Unauthorized access"});
+            }
+        })
         
     } catch (error) {
         res.status(401).json({ error: error });
