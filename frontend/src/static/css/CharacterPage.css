@@ -1,0 +1,42 @@
+.char-image {
+    border-radius: 50%;
+    color: black;
+    height: 150;
+    width: 150;
+    margin-top: 10px;
+    object-fit: cover;
+}
+
+.char-name {
+    font-size: 60px;
+    font-weight: bolder;
+}
+
+.char-subtitle {
+    color: black;
+    font-weight: bold;
+}
+
+.char-subtitle,
+.char-description {
+    font-size: 25px;
+}
+
+.stats {
+    display: grid;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.edit-link {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    background-color: #1f1f1f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }

@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const contributionSchema = new mongoose.Schema({
     contribution_id: String,
-    user_id: {},
+    user_id: Object,
     action: String,
     status: String,
-    reviewed_by: {},
+    reviewed_by: Object,
     date: Date,
     data: {
         id: String,

@@ -13,3 +13,7 @@
   filter: blur(15px) contrast(0.2) brightness(1.7);
   z-index: -1;
 }
+
+.App {
+  background-color: transparent;
+}
