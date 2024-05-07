@@ -1,9 +1,5 @@
-const axios = require('axios');
 const asyncHandler = require('express-async-handler');
-
-const adminInstance = require('../models/admin');
-const userInstance = require('../models/user');
-const charInstance = require('../models/character');
+const { ObjectId } = require('mongodb');
 const contributionInstance = require('../models/contribution');
 
 module.exports.getAllContributions = [
@@ -12,6 +8,30 @@ module.exports.getAllContributions = [
         const allContributions = await getAll();
         res.status(200).json(allContributions);
     }),
+];
+
+module.exports.updateContribution = [
+    asyncHandler(async (req, res, next) => {
+
+        const obj = new Object;
+        obj._id = new ObjectId(req.id);
+
+        const filter = { contribution_id: req.body.contribution_id };
+        const update = {"$set": {status: req.body.status, reviewed_by: obj}};
+
+        await contributionInstance.findOneAndUpdate(filter, update)
+        .then(() => {
+            res.status(200).json({
+                success : true,
+                message: "Update success"
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
+        });
+    })
 ];
 
 module.exports.editCharacterFromContribution = [

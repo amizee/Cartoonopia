@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
-const adminSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema(
+    {
 
-});
+    },{
+    versionKey: false // You should be aware of the outcome after set to false
+    }
+);
 
 var Admin;
 
@@ -11,15 +15,4 @@ if (mongoose.models.Admin) {
 } else {
     Admin = mongoose.model('Admin', adminSchema);
 }
-
-/* adminSchema.statics.isAdmin = async function(userId) {
-    try {
-        const admin = await this.findById(userId);
-        return admin !== null;
-    } catch (error) {
-        console.error('Error checking admin status:', error);
-        return false;
-    }
-}; */
-
 module.exports = Admin
