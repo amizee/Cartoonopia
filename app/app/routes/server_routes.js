@@ -14,9 +14,6 @@ router.post(
     user_controller.login_user
 );
 
-router.get('/test', verifyToken, (req, res) => {
-    res.status(200).json({ message: 'route accessed', id: req.id });
-});
 
 /* router.get('/test', (req, res) => {
     res.status(200).json({ message: 'route accessed', id: req.id });
