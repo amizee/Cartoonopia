@@ -3,7 +3,7 @@ import api from './api.js';
 import { BrowserRouter, Link, useParams, useNavigate } from 'react-router-dom';
 
 function EditCharacter({ onSubmit }) {
-    const navigate = useNavigate();
+    const navigate   = useNavigate();
     const [character, setCharacter] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
