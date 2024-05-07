@@ -31,10 +31,10 @@ function Contributions() {
                 {contributions.map(c => (
                     <li key={c._id}>
                         <p><strong>Contribution ID:</strong> {c.contribution_id}</p>
-                        <p>User ID: {c.user_id}</p>
+                        <p>User ID: {c.user_id._id}</p>
                         <p>Action: {c.action}</p>
                         <p>Status: {c.status}</p>
-                        <p>Reviewed By: {c.reviewed_by}</p>
+                        <p>Reviewed By: {c.reviewed_by ? c.reviewed_by._id : "Not Reviewed"}</p>
                         <p>Date Submitted: {c.date}</p>
                         {c.data && (
                             <>

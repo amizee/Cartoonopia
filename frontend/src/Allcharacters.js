@@ -36,6 +36,7 @@ function Allcharacters() {
         <body class="body-class">
           <div class="background-image-blur-whitewash"></div>
               {characters.map(character => (
+                character.active && (
                 <div className="char-entry" key={character.id}>
                 <div className="char-box">
                   <p class="char-name-small">{character.name}</p>
@@ -52,6 +53,7 @@ function Allcharacters() {
                 </div>
                 <button className="view-details" onClick={() => navigate(`/allchar/${character.id}`)}>View Details</button>
               </div>
+              )
               ))}
         </body>
       </div>
