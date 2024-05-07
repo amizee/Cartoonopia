@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import './static/css/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");

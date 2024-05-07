@@ -1,7 +1,7 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
-
+const { ObjectId } = require('mongodb');
 const adminInstance = require('../models/admin');
 const userInstance = require('../models/user');
 const charInstance = require('../models/character');
@@ -55,6 +55,7 @@ module.exports.getOneChar = [
 /* Create Character contribution*/
 module.exports.createCharacterContribution = [
     asyncHandler(async (req, res, next) => {
+
         const userEmail = req.body.data.user_email;
         console.log(userEmail);
         const userInfo = await userInstance.findOne({email: userEmail});
@@ -100,8 +101,11 @@ module.exports.createCharacterContribution = [
             }
             console.log("changed to edit")
             actionType = "EditCharacter";
+        } else if (req.path.endsWith("/delete")) {
+            actionType = "DeleteCharacter";
         }
-            
+
+
         const data = {
             id: id,
             name: name,
