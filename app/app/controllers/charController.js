@@ -1,13 +1,16 @@
 const axios = require('axios');
+const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 
 const adminInstance = require('../models/admin');
+const userInstance = require('../models/user');
 const charInstance = require('../models/character');
 const contributionInstance = require('../models/contribution');
 
-module.exports.getIndex = function(req, res) {
+/* module.exports.getIndex = function(req, res) {
     res.render('../views/index.ejs');
-}
+} */
+
 module.exports.getAllChar = [
     asyncHandler(async (req, res, next) => {
         
@@ -31,71 +34,93 @@ module.exports.getOneChar = [
     }),
 ];
 
-module.exports.getNewChar = function(req, res) {
+/* module.exports.getNewChar = function(req, res) {
     res.render('newchar.ejs');
-}
+} */
 
 /* Create Character contribution*/
-/* Can add type of contribution to header maybe, then can change contribution
-body based off of it so i dont need 3 functions for that */
+
 module.exports.createCharacterContribution = [
     asyncHandler(async (req, res, next) => {
-
-        console.log("token: ", req.headers['authorization']);
-        const response = await axios.get('http://localhost:3000/test', {
-            headers: {
-                Authorization: req.headers['authorization']
-            }
-        });
-
-        const userId = response.data.id;
+        const userEmail = req.body.data.user_email;
+        console.log(userEmail);
+        const userInfo = await userInstance.findOne({email: userEmail});
+        const userId = userInfo._id;
+        const userObject = {
+            _id: userId
+        }
+        console.log("found user id: ", userId);        
 
         console.log("request body: ", req.body);
         const newContributionId = await generateContributionId();
         console.log("new contribution id: ", newContributionId);
 
-        let actionType = "AddCharacter"; // Default action type
-
-        // Check if the request path ends with "/edit" or "/delete"
-        if (req.path.endsWith("/edit")) {
-            actionType = "EditCharacter";
-        } else if (req.path.endsWith("/delete")) {
-            actionType = "DeleteCharacter";
-        }
-
         const currentDate = new Date();
-        const { name, 
+        const { 
+            id,
+            name, 
             subtitle, 
             description, 
             strength, 
             speed, 
             skill, 
-            fearFactor, 
+            fear_factor, 
             power, 
             intelligence, 
             wealth,
-            image_url } = req.body;
+            image_url
+        } = req.body.data;
+
+        let actionType = "AddCharacter"; // Default action type
+
+        // Check if the request path ends with "/edit" or "/delete"
+        if (req.path.endsWith("/edit")) {
+            /* Check if existing contribution exists for the character */
+            const existing = await contributionInstance.find({"data.id": id});
+            console.log("exists?: ", existing);
+            if (existing.length > 0) {
+                const pending = existing.find(contribution => contribution.status === "Pending");
+                if (pending) {
+                    console.log("contribution for this character already exists");
+                    return res.status(201).json({ message: "Contribution for this character already exists." });
+                }
+            }
+            console.log("changed to edit")
+            actionType = "EditCharacter";
+        }
+            
+        const data = {
+            id: id,
+            name: name,
+            subtitle: subtitle,
+            description: description,
+            image_url: image_url,
+            strength: strength,
+            speed: speed,
+            skill: skill,
+            fear_factor: fear_factor,
+            power: power,
+            intelligence: intelligence,
+            wealth: wealth
+        };
+        console.log("data field1: ", data);
+
+        for (const key in data) {
+            if (!data[key]) {
+                delete data[key];
+            }
+        }
+
+        console.log("data field2: ", data);
             
         const newContribution = new contributionInstance({
             contribution_id: newContributionId,
-            user_id: userId,
+            user_id: userObject,
             action: actionType,
             status: "Pending", //depends on user or admin
             reviewed_by: null,
             date: currentDate,
-            data: {
-                id: name,
-                subtitle: subtitle,
-                description: description,
-                image_url: image_url,
-                strength: strength,
-                speed: speed,
-                skill: skill,
-                fear_factor: fearFactor,
-                power: power,
-                intelligence: intelligence,
-                wealth: wealth
-            }
+            data: data
         });
 
         /* Query admin to see if the user adding is an admin */
@@ -109,17 +134,13 @@ module.exports.createCharacterContribution = [
         await newContribution.save()
             .then(() => {
                 console.log("Saved new contribution");
+                console.log(newContribution);
                 res.status(200).send(newContribution);
             }).catch (err => {
                 console.log("Error saving contribution: ", err.message);
         });
     }),
 ];
-
-/* Create character record from contribution */
-module.exports.createCharacterRecord = function(req, res) {
-    
-};
 
 async function generateContributionId() {
     const latest = await contributionInstance.findOne().sort({date: -1});
@@ -157,7 +178,3 @@ async function isAdmin(userId) {
         return false;
     }
 }
-
-/* Edit Character */
-
-/* Delete Character */

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Container, Col, Row } from "react-bootstrap";
-import Landing from './Landing'
 import Login from './Login'
 import Register from './Register'
 import Allcharacters from './Allcharacters';
 import Characterpage from './Characterpage';
 import Home from './Home';
 import EditCharacter from './EditCharacter';
+import Addcharacter from './Addcharacter.js';
+import Contributions from './Contributions';
 import Protected from './Protected';
 
 function App() {
@@ -21,6 +21,8 @@ function App() {
           <Route exact path="/allchar" element={ <Allcharacters/> } />
           <Route path="/allchar/:id" element={ <Characterpage/> } />
           <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
+          <Route path="/newchar" element={ <Addcharacter/> } />
+          <Route path="/contributions" element={ <Contributions/> } />
         </Route>
         <Route path="/" element={<Login/>} />
         <Route path="/register" element={<Register />} />

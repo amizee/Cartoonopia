@@ -3,14 +3,17 @@ import axios from 'axios';
 import api from './api.js';
 import { BrowserRouter, Link, useParams } from 'react-router-dom';
 
+import './static/css/App.css';
+
 function Characterpage() {
 	const [character, setCharacters] = useState(null);
-    const { id } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     async function fetchCharacter() {
       try {
-        const response = await api.get(`/allchar/${id}`);
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await api.get(`/allchar/${id}`, { headers: {"Authorization" : `Bearer ${user.token}`} });
         console.log(response);
         setCharacters(response.data);
       } catch (error) {
@@ -44,7 +47,11 @@ function Characterpage() {
         ) : (
           <p>Loading character details...</p>
         )}
-      </div>
+
+        <body>
+          <div class="background-image-blur-whitewash"></div>
+        </body>
+        </div>
   );
 }
 
