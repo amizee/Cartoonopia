@@ -10,6 +10,7 @@ const Register = () => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [register, setRegister] = useState(false);
 
   const navigate = useNavigate();
@@ -21,6 +22,11 @@ const Register = () => {
   const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      window.alert("Password and confirm password do not match");
+      return;
+    }
 
     // set configurations
     const config = {
@@ -86,6 +92,11 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+        </Form.Group>
+
+        <Form.Group className="form-group">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
         </Form.Group>
 
         <Button type="submit" className="btn-register">Register</Button>
