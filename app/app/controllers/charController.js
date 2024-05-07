@@ -26,7 +26,20 @@ module.exports.getOneChar = [
             if (!character) {
               return res.status(404).json({ message: 'Character not found' });
             }
-            res.status(200).json(character);
+            
+            const hasContribution = await contributionInstance.findOne({action: "AddCharacter", "data.id": req.params.id});
+            console.log("has contribution: ", hasContribution);
+            if (hasContribution) {
+                const createdBy = userIntance.findById(hasContribution.user_id._id);
+                console.log("created by: ", createdBy);
+                /* character["created_by"] = createdBy.firstname + " " + createdBy.lastname; */
+                res.status(200).json({"character": character, "created_by": createdBy.firstname + " " + createdBy.lastname});
+            } else {
+                console.log("None")
+                res.status(200).json({"character": character, "created_by": "None"});
+            }
+            console.log(character);
+            
           } catch (error) {
             console.error('Error obtaining character details: ', error);
             res.status(500).json({ message: 'Error obtaining character details' });
@@ -126,7 +139,7 @@ module.exports.createCharacterContribution = [
         /* Query admin to see if the user adding is an admin */
         if (isAdmin(userId) == true) {
             newContribution.status = "Accepted";
-            newContribution.reviewed_by = userId;
+            newContribution.reviewed_by = userObject;
             /* Call function to create character object somewhere here */
             
         }
