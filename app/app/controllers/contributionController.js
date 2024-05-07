@@ -93,6 +93,8 @@ async function handleContribution(contributionId) {
     }
 }
 
+module.exports.handleContribution = handleContribution;
+
 
 async function getAll() {
     try {
