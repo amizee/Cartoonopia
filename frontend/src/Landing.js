@@ -1,49 +1,49 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import LandingCSS from './Landing.css';
 
-const Landing = (props) => {
-  const { loggedIn, email } = props
-  const navigate = useNavigate()
+const Landing = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate();
 
   const onButtonClickLogin = () => {
-    if (loggedIn) {
-        localStorage.removeItem('user')
-        props.setLoggedIn(false)
-      } else {
-        navigate('/login')
-      }
-  }
+    if (user) {
+      localStorage.removeItem('user');
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  };
 
   const onButtonClickSignup = () => {
-    if (loggedIn) {
-        window.alert("You are logged in")
+    if (user) {
+      window.alert('You are logged in');
     } else {
-        navigate('/register')
+      navigate('/register');
     }
-  }
+  };
 
   return (
     <div className="mainContainer">
       <div className={'buttonContainer'}>
-        <input
-          className={'inputButton'}
-          type="button"
+        <Button
+          className={'landingButton'}
           onClick={onButtonClickLogin}
-          value={loggedIn ? 'Log out' : 'Log in'}
-        />
-        {loggedIn ? <div>Your email address is {email}</div> : <div />}
+          variant={user ? 'danger' : 'primary'} // Change variant based on user state
+        >
+          {user ? 'Log out' : 'Log in'}
+        </Button>
+        {user && <div>Your email address is {user.email}</div>}
       </div>
 
       <div className={'buttonContainer'}>
-        <input
-          className={'inputButton'}
-          type="button"
-          onClick={onButtonClickSignup}
-          value={'Sign up'}
-        />
+        <Button className={'landingButton'} onClick={onButtonClickSignup} variant="success">
+          Sign up
+        </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Landing
+export default Landing;

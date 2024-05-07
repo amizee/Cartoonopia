@@ -77,7 +77,8 @@ exports.login_user = [
                         
                             res.json({
                                 success: true,
-                                token: token
+                                token: token,
+                                id: existingUser._id
                               });
                         } else {
                             res.json({
