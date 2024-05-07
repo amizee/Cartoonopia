@@ -2,16 +2,10 @@ const mongoose = require("mongoose");
 
 const contributionSchema = new mongoose.Schema({
     contribution_id: String,
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    user_id: Object,
     action: String,
     status: String,
-    reviewed_by: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    reviewed_by: Object,
     date: Date,
     data: {
         id: String,
