@@ -1,0 +1,15 @@
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .buttonContainer {
+    margin: 10px;
+  }
+  
+  .landingButton {
+    margin-right: 10px;
+  }
+  

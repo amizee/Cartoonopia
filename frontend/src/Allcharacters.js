@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import api from './api.js';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import './static/css/App.css';
 
 
 function Allcharacters() {
@@ -10,7 +11,8 @@ function Allcharacters() {
   useEffect(() => {
     async function fetchCharacters() {
       try {
-        const response = await api.get('/allchar');
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await api.get('/allchar', { headers: {"Authorization" : `Bearer ${user.token}`} });
         console.log(response);
         setCharacters(response.data);
       } catch (error) {
@@ -26,6 +28,7 @@ function Allcharacters() {
         <header className="App-header">
           <h1>Welcome to My App</h1>
           <nav>
+            <Link to={'/newchar'}>Add new character</Link>
             <ul>
               {characters.map(character => (
                 <li key={character._id}>
@@ -35,6 +38,9 @@ function Allcharacters() {
             </ul>
           </nav>
         </header>
+        <body>
+          <div class="background-image-blur-whitewash"></div>
+        </body>
       </div>
   );
 }

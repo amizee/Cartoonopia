@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
-const Login = (props) => {
-
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
+  const onButtonClickSignup = () => {
+    navigate('/register');
+  };
+
+  const onButtonClickLogOut = () => {
+    localStorage.removeItem('user');
+    navigate('/');
+  };
+  const user = JSON.parse(localStorage.getItem('user'));
+
   const handleSubmit = (e) => {
-
     e.preventDefault();
 
     const config = {
@@ -26,12 +34,10 @@ const Login = (props) => {
     axios(config)
       .then((r) => {
         if (r.data.success) {
-          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token }))
-          props.setLoggedIn(true)
-          props.setEmail(email)
-          navigate('/home')
+          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id}))
+          navigate('/home');
         } else {
-          window.alert('Email or password incorrect')
+          window.alert('Email or password incorrect');
         }
       })
       .catch((error) => {
@@ -40,38 +46,45 @@ const Login = (props) => {
   };
 
   return (
-    <>
-      <h2>Login</h2>
-      <Form onSubmit={(e) => handleSubmit(e)}>
-        
-        <Form.Group>
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
+    <div>
+        { !user ? (
+          <div className="login-container">
+            <h2 className="text-center">Welcome</h2>
+            <Form onSubmit={(e) => handleSubmit(e)}>
+              <Form.Group className="form-group">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
+              <Form.Group className="form-group">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
 
-        <Button type="submit">Login</Button>
+              <Button type="submit" block className="btn-login">Login</Button>
+            </Form>
 
-        {/* display success message */}
-        {props.Login ? (
-          <p className="text-success">You Are Logged in Successfully</p>
+            <div className="text-center">
+              <span>Don't have an account? </span>
+              <Button variant="link" onClick={onButtonClickSignup}>Sign up for free</Button>
+            </div>
+          </div>
         ) : (
-          <p className="text-danger">You Are Not Logged in</p>
-        )}
-      </Form>
-    </>
+          <div className="text-center">
+            <Button variant="link" onClick={onButtonClickLogOut}>Logout</Button>
+          </div>
+            
+        )} 
+    </div>
+   
   );
 }
 

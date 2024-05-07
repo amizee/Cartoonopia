@@ -2,57 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/tempcss.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
-    <h1>Home</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/allchar">Characters</a></li>
-            <li><a href="/">Profiles</a></li>
-        </ul>
-    </nav>
-    <h2>Favourites</h2>
-    <% for (var i = 0; i < characters.length; i++) {%>
-    <p><%=characters[i]%></p>
-    <% } %>
-    <h2>Contributions</h2>
-    <table id="contributions-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Action</th>
-                <th>Description</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (var i = 0; i < contributions.length; i++) {%>
-                <tr>
-                    <td><%=contributions[i].date%></td>
-                    <td><%=contributions[i].action%></td>
-                    <td><%=contributions[i].data.description%></td>
-                    <td><%=contributions[i].status%></td>
-                    <% if (contributions[i].status === "Pending") {%>
-                        <td>
-                            <form method="post" action="/contributions/<%= contributions[i].contribution_id %>?_method=DELETE">
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    <% } else {%>
-                        <td></td>
-                    <% } %>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
-    <h2>Search users</h2>
-    <form id="search-form">
-        <input id="search-input" type="text" placeholder="Search Users">
-        <button id="search-button" type="submit">Search</button>
-    </form>
-    <div id="profiles">
-    </div>
-    <script type="text/javascript" src="scripts/search.js"></script>
+    <h1>hi</h1>
+    <a href="/allchar">all chars</a>
 </html>

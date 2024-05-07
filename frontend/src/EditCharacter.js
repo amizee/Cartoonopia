@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import api from './api.js';
-import { BrowserRouter, Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
+import './static/css/App.css';
+
 
 function EditCharacter({ onSubmit }) {
     const navigate   = useNavigate();
@@ -19,11 +22,14 @@ function EditCharacter({ onSubmit }) {
         image_url: ''
     });
     const { id } = useParams();
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState(false);
 
     useEffect(() => {
         async function fetchCharacter() {
             try {
-                const response = await api.get(`/allchar/${id}`);
+                const user = JSON.parse(localStorage.getItem('user'));
+                const response = await api.get(`/allchar/${id}`, { headers: {"Authorization" : `Bearer ${user.token}`} });
                 console.log(response);
                 setCharacter(response.data);
                 // Initialize formData state with character data
@@ -50,18 +56,47 @@ function EditCharacter({ onSubmit }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const parsedValue = name === 'speed' || 
+    name === 'skill' || name === 'fear_factor' || 
+    name === 'power' || name === 'intelligence' || 
+    name === 'wealth' || name === 'strength' 
+    ? parseFloat(value) : value;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: parsedValue
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        //const response = await api.post(`/allchar/${id}`, formData);
-        console.log('Character updated');
-        navigate(`/allchar/${id}`);
+        const user = JSON.parse(localStorage.getItem('user'));
+        /* Check which fields are changed */
+        const changedData = {};
+        for (const key in formData) {
+          if (formData[key] !== character[key]) {
+            changedData[key] = formData[key];
+          }
+        }
+
+        if (Object.keys(changedData).length === 0) {
+          console.log("no changes were made");
+          setShowPopup(true);
+        } else {
+          console.log("formdata: ", formData);
+          console.log("changed data: ", changedData);
+
+          changedData["user_email"] = user.email;
+          changedData["id"] = character["id"];
+          const response = await api.post(`/allchar/${id}/edit`, { data: changedData }, { headers: {"Authorization" : `Bearer ${user.token}`} });
+          if (response.status === 201) {
+            console.log('Contribution for this character already exists');
+            setPopupMessage(true);
+          } else {
+            console.log('Character edited: ', response);
+            navigate(`/allchar/${id}`);
+          }
+        }
     } catch (error) {
         console.error('Error updating character:', error);
     }
@@ -69,6 +104,9 @@ function EditCharacter({ onSubmit }) {
 
   return (
     <div>
+      <body>
+        <div class="background-image-blur-whitewash"></div>
+      </body>
       <h1>Edit Character</h1>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
@@ -106,6 +144,18 @@ function EditCharacter({ onSubmit }) {
 
         <button type="submit" onSubmit={handleSubmit}>Submit</button>
       </form>
+      {showPopup && (
+        <div className="popup">
+            <p>No changes were made.</p>
+            <button onClick={() => setShowPopup(false)}>OK</button>
+        </div>
+      )}
+      {popupMessage && (
+        <div className="popup">
+            <p>Character already has an active contribution</p>
+            <button onClick={() => setPopupMessage(false)}>OK</button>
+        </div>
+      )}
     </div>
   );
 }

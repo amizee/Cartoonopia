@@ -1,0 +1,25 @@
+.register-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20vh; /* Adjust vertical margin to center vertically */
+  }
+  
+  .register-container h2 {
+    margin-bottom: 20px; /* Add space below the title */
+  }
+  
+  .form-group {
+    margin-bottom: 20px; /* Add space between form groups */
+  }
+  
+  .btn-register {
+    width: 100%; /* Make the button full-width */
+  }
+  
+  .text-center {
+    padding: 5%;
+  }
+  
