@@ -6,6 +6,7 @@ const user_controller = require("../controllers/userController");
 const char_controller = require('../controllers/charController');
 const admin_controller = require('../controllers/adminController.js')
 const contribution_controller = require("../controllers/contributionController");
+const home_controller = require("../controllers/homeController");
 
 router.post(
     "/signup",
@@ -21,11 +22,11 @@ router.post('/admin', verifyTokenAdmin, admin_controller.addAdmin);
 router.delete('/admin', verifyTokenAdmin, admin_controller.deleteAdmin);
 
 
-// router.get('/', char_controller.getIndex);
+router.get('/favourites', verifyToken, home_controller.getFavourites);
 
 router.get('/users', async (req, res) => {
     const query = req.query.value;
-    const results = await user_controller.getUsers(query); // Replace performSearch with your actual search function
+    const results = await home_controller.getUsers(query); // Replace performSearch with your actual search function
     // console.log("results", results)
     res.json({ results });
 });

@@ -2,35 +2,37 @@ const asyncHandler = require("express-async-handler");
 const favouriteInstance = require('../models/favourite');
 const contributionInstance = require('../models/contribution');
 const userInstance = require('../models/user');
+const characterInstance = require('../models/character');
 const axios = require("axios");
 const mongoose = require("mongoose");
 
-module.exports.getIndex = [
+module.exports.getFavourites = [
     asyncHandler(async (req, res, next) => {
-        const favourites = await getFavourites(req.headers['authorization']);
-        console.log(favourites);
-        const contributions = await getContributions(req.headers['authorization']);
-        // console.log(contributions);
-        // res.render('../views/index.ejs', {characters: ['superman', 'batman'], contributions: [{action: "EditCharacter", description: "placeholder", date: '2024-05-02', status: 'pending', id: 14},
-        //         {action: "AddCharacter", description: "placeholder2", date: '2024-05-03', status: 'approved', id: 13}]});
-        res.render('../views/index.ejs', {characters: ['superman', 'batman'], contributions: contributions});
+        const userId = req.query.id;
+        const userFavourites = await queryFavourites(userId);
+
+        let favourites = {}; // character name: image_url
+        for (const character of userFavourites[0].characters) {
+            const image_url = await getImageUrlForCharacter(character);
+            favourites[character] = image_url;
+        }
+        res.status(200).json(favourites);
     }),
 ];
 
-async function getFavourites(token) {
-    // const response = await axios.get('http://localhost:5000/test', {
-    //     headers: {
-    //         Authorization: token
-    //     }
-    // });
-
-    // const userId = response.data.id;
-    const userId ='663366f2cae4641d62fd97a2';
-    // const userId = new mongoose.Types.ObjectId('663366f2cae4641d62fd97a2');
+async function queryFavourites(user_id) {
+    const userId = new mongoose.Types.ObjectId(user_id);
     const query = { 'user_id._id': userId };
-    const favourites = await favouriteInstance.find();
-    // const favourites = await favouriteInstance.find({user_id: userId}).populate('user_id').exec();
+    const favourites = await favouriteInstance.find(query);
     return favourites;
+}
+
+async function getImageUrlForCharacter(character) {
+    filter = {
+        name: { $regex: new RegExp(character, 'i') },
+    };
+    const imageUrl = await characterInstance.find(filter).select('image_url');
+    return imageUrl;
 }
 
 async function getContributions(token) {
