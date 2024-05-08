@@ -15,7 +15,6 @@ function App() {
 	return (
     <BrowserRouter>
       <Routes>
-
         <Route element = {<Protected/>}>
           <Route path='/home' element={<Home/>}/>
           <Route exact path="/allchar" element={ <Allcharacters/> } />
