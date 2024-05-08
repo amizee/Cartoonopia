@@ -1,0 +1,17 @@
+#fav-container {
+    width: 80%;
+    color: rgb(85, 85, 85);
+    margin-bottom: 5vh;
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3vh;
+}
+
+.fav-img {
+    height: 240px;
+}
+
+.fav-card {
+    margin-bottom: 10px;
+}

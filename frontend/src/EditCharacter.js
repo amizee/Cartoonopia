@@ -7,7 +7,7 @@ import './static/css/EditCharacter.css';
 
 
 function EditCharacter({ onSubmit }) {
-    const navigate = useNavigate();
+    const navigate   = useNavigate();
     const [character, setCharacter] = useState(null);
     const [formData, setFormData] = useState({
         name: '',

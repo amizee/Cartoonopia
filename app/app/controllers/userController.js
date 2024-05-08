@@ -14,7 +14,7 @@ exports.create_user = [
             email: req.body.email,
             password: req.body.password
             });
-        
+
 
         await UserInstance.findOne({ email: newUser.email })
         .then(async existingUser => {
@@ -40,9 +40,9 @@ exports.create_user = [
                             });
                         });
                     }
-                    
+
                 });
-                
+
             } else {
                 res.json({
                     success: false,
@@ -51,11 +51,11 @@ exports.create_user = [
             }
         })
     })
-]; 
+];
 
 exports.login_user = [
     asyncHandler(async (req, res, next) => {
-        
+
         await UserInstance.findOne({ email: req.body.email })
             .then(existingUser => {
                 if (!existingUser) {
@@ -67,7 +67,7 @@ exports.login_user = [
                     bcrypt.compare(req.body.password, existingUser.password)
                     .then(async function(result) {
                         if (result==true) {
-                            
+
                             const payload = {
                                 id: existingUser._id,
                                 email: existingUser.email
