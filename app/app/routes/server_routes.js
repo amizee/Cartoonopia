@@ -18,7 +18,7 @@ router.get('/test', verifyToken, (req, res) => {
     res.status(200).json({ message: 'route accessed', id: req.id });
 });
 
-router.get('/', user_controller.getIndex);
+// router.get('/', char_controller.getIndex);
 
 router.get('/users', async (req, res) => {
     const query = req.query.value;
