@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import './Register.css'; // Import CSS file
+import './static/css/Register.css'; // Import CSS file
 
 const Register = () => {
   // initial state

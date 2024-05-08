@@ -11,13 +11,12 @@ function Characterpage() {
   const [addedBy, setAddedBy] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     async function fetchCharacter() {
       try {
-        const user = JSON.parse(localStorage.getItem('user'));
         const response = await api.get(`/allchar/${id}`, { headers: {"Authorization" : `Bearer ${user.token}`} });
-        console.log(response);
         setCharacters(response.data.character);
         setAddedBy(response.data.created_by);
       } catch (error) {
@@ -28,10 +27,42 @@ function Characterpage() {
     fetchCharacter();
   }, [id]);
 
+
+  const handleSubmit = (e) => {
+    // prevent the form from refreshing the whole page
+    e.preventDefault();
+
+    // set configurations
+    const config = {
+      method: "post",
+      url: "http://127.0.0.1:5000/allchar/:id/delete",
+      headers: {"Authorization" : `Bearer ${user.token}`},
+      data: {
+        "data": {
+          "id" : id
+        }
+      }
+
+    };
+
+    axios(config)
+      .then((r) => {
+        if (r.data.success === false) {
+          window.alert("Error: " + r.data.message);
+        } else {
+          navigate("/allchar/");
+        }
+      })
+      .catch((error) => {
+        error = new Error();
+      });
+  };
+
 	return (
         <div>
         <h1 class="heading">Character Details</h1>
         {character ? (
+          
           <div class="container">
             <img src={character.image_url} class="char-image"></img>
             <h2 class="char-name">{character.name}</h2>
@@ -48,6 +79,13 @@ function Characterpage() {
             </div>
             <p class="added-by">Character submitted by: {addedBy}</p>
             <button className="edit-link" onClick={() => navigate(`/allchar/${id}/edit`)}>Edit Details</button>
+
+            {user.isAdmin ? (
+                <div><button className="edit-link" onClick={(e) => handleSubmit(e)}>Delete</button></div>
+            ) : (
+              <div></div>
+            )}
+
           </div>
         ) : (
           <p>Loading character details...</p>

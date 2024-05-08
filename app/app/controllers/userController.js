@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require("express-async-handler");
 const { get } = require("mongoose");
 const saltRounds = 10;
+const adminInstance = require('../models/admin');
 
 exports.create_user = [
     asyncHandler(async (req, res, next) => {
@@ -14,7 +15,7 @@ exports.create_user = [
             email: req.body.email,
             password: req.body.password
             });
-        
+
 
         await UserInstance.findOne({ email: newUser.email })
         .then(async existingUser => {
@@ -40,9 +41,9 @@ exports.create_user = [
                             });
                         });
                     }
-                    
+
                 });
-                
+
             } else {
                 res.json({
                     success: false,
@@ -51,11 +52,11 @@ exports.create_user = [
             }
         })
     })
-]; 
+];
 
 exports.login_user = [
     asyncHandler(async (req, res, next) => {
-        
+
         await UserInstance.findOne({ email: req.body.email })
             .then(existingUser => {
                 if (!existingUser) {
@@ -65,9 +66,9 @@ exports.login_user = [
                     });
                 } else {
                     bcrypt.compare(req.body.password, existingUser.password)
-                    .then(function(result) {
+                    .then(async function(result) {
                         if (result==true) {
-                            
+
                             const payload = {
                                 id: existingUser._id,
                                 email: existingUser.email
@@ -75,11 +76,19 @@ exports.login_user = [
                             const token = jwt.sign(payload, 'SECRET_KEY', {
                                 expiresIn: '1h',
                             });
+                            
+                            var admin = await adminInstance.findById(existingUser._id.toString())
+                            if (admin) {
+                                admin = true;
+                            } else {
+                                admin = false;
+                            }
                         
                             res.json({
                                 success: true,
                                 token: token,
-                                id: existingUser._id
+                                id: existingUser._id,
+                                admin : admin
                               });
                         } else {
                             res.json({
