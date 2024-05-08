@@ -59,6 +59,7 @@ module.exports.createCharacterContribution = [
         console.log(userEmail);
         const userInfo = await userInstance.findOne({email: userEmail});
         const userId = userInfo._id;
+        
         const userObject = {
             _id: userId
         }

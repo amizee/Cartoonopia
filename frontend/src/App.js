@@ -8,6 +8,7 @@ import Home from './Home';
 import EditCharacter from './EditCharacter';
 import Addcharacter from './Addcharacter.js';
 import Contributions from './Contributions';
+import History from './History.js';
 import Protected from './Protected';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
           <Route path="/newchar" element={ <Addcharacter/> } />
           <Route path="/contributions" element={ <Contributions/> } />
+          <Route path="/history" element={ <History/> } />
         </Route>
         <Route path="/" element={<Login/>} />
         <Route path="/register" element={<Register />} />

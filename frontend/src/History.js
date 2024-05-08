@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import api from './api.js';
-import { BrowserRouter, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './static/css/App.css';
 
 
-function Home() {
-  const navigate = useNavigate();
+function History() {
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchCharacters() {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await api.get('/history', { headers: {"Authorization" : `Bearer ${user.token}`} });
+        console.log(response);
+      } catch (error) {
+        console.log("Error fetching history: ", error);
+      }
+    }
+
+    fetchCharacters();
+  }, []);
 
 	return (
       <div className="App">
@@ -18,18 +31,11 @@ function Home() {
           <button className="nav-button" onClick={() => navigate('/home')}>User Profile</button>
           <button className="nav-button" onClick={() => navigate('/home')}>All Users</button>
           <button className="nav-button" onClick={() => navigate('/allchar')}>All Characters</button>
-          <button className="nav-button" onClick={() => navigate('/history')}>History</button>
         </div>
-          <h1>Welcome to My App</h1>
-          <nav>
-            <Link to={`/contributions`}>Contributions</Link>
-          </nav>
+          <h1 class="all-characters-header">Character Change History</h1>
         </header>
-        <body>
-          <div class="background-image-blur-whitewash"></div>
-        </body>
       </div>
   );
 }
 
-export default Home;
+export default History;

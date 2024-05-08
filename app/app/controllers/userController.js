@@ -2,6 +2,7 @@ const UserInstance = require("../models/user");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require("express-async-handler");
+const { get } = require("mongoose");
 const saltRounds = 10;
 
 exports.create_user = [
@@ -94,3 +95,10 @@ exports.login_user = [
             });
     })
 ];
+
+async function getUsernameById(userId) {
+    const user = await UserInstance.findOne({_id: userId});
+    return user.firstname + " " + user.lastname;
+}
+
+module.exports.getUsernameById = getUsernameById;

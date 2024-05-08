@@ -47,5 +47,7 @@ router.post('/allchar/:id/delete', verifyToken, char_controller.createCharacterC
 router.get('/contributions', verifyToken, contribution_controller.getAllContributions);
 router.put('/contributions', verifyTokenAdmin, contribution_controller.updateContribution);
 
+/* change verifytoken to verifytokenadmin */
+router.get('/history', verifyToken, contribution_controller.getHistory);
 
 module.exports = router;
