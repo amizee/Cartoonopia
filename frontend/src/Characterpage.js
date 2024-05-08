@@ -62,6 +62,7 @@ function Characterpage() {
         <div>
         <h1 class="heading">Character Details</h1>
         {character ? (
+          
           <div class="container">
             <img src={character.image_url} class="char-image"></img>
             <h2 class="char-name">{character.name}</h2>
