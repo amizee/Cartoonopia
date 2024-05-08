@@ -75,8 +75,7 @@ exports.login_user = [
                             const token = jwt.sign(payload, 'SECRET_KEY', {
                                 expiresIn: '1h',
                             });
-                            console.log(typeof(existingUser._id));
-                            console.log(existingUser._id.toString());
+                            
                             var admin = await adminInstance.findById(existingUser._id.toString())
                             if (admin) {
                                 admin = true;
