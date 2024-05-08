@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require("express-async-handler");
 const saltRounds = 10;
+const adminInstance = require('../models/admin');
 
 exports.create_user = [
     asyncHandler(async (req, res, next) => {
@@ -64,7 +65,7 @@ exports.login_user = [
                     });
                 } else {
                     bcrypt.compare(req.body.password, existingUser.password)
-                    .then(function(result) {
+                    .then(async function(result) {
                         if (result==true) {
                             
                             const payload = {
@@ -74,8 +75,14 @@ exports.login_user = [
                             const token = jwt.sign(payload, 'SECRET_KEY', {
                                 expiresIn: '1h',
                             });
-
-                            const admin = isAdmin(existingUser._id);
+                            console.log(typeof(existingUser._id));
+                            console.log(existingUser._id.toString());
+                            var admin = await adminInstance.findById(existingUser._id.toString())
+                            if (admin) {
+                                admin = true;
+                            } else {
+                                admin = false;
+                            }
                         
                             res.json({
                                 success: true,
@@ -97,17 +104,3 @@ exports.login_user = [
             });
     })
 ];
-
-
-async function isAdmin(userId) {
-    try {
-        const admin = await adminInstance.findById(userId);
-        if (admin) {
-            return true;
-        }
-        return false;
-    } catch (error) {
-        console.error('Error checking admin status:', error);
-        return false;
-    }
-}
