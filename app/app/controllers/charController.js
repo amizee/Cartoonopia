@@ -30,7 +30,7 @@ module.exports.getOneChar = [
             const hasContribution = await contributionInstance.findOne({action: "AddCharacter", "data.id": req.params.id});
             console.log("has contribution: ", hasContribution);
             if (hasContribution) {
-                const createdBy = userIntance.findById(hasContribution.user_id._id);
+                const createdBy = await userInstance.findById(hasContribution.user_id._id);
                 console.log("created by: ", createdBy);
                 /* character["created_by"] = createdBy.firstname + " " + createdBy.lastname; */
                 res.status(200).json({"character": character, "created_by": createdBy.firstname + " " + createdBy.lastname});
