@@ -74,11 +74,14 @@ exports.login_user = [
                             const token = jwt.sign(payload, 'SECRET_KEY', {
                                 expiresIn: '1h',
                             });
+
+                            const admin = isAdmin(existingUser._id);
                         
                             res.json({
                                 success: true,
                                 token: token,
-                                id: existingUser._id
+                                id: existingUser._id,
+                                admin : admin
                               });
                         } else {
                             res.json({
@@ -94,3 +97,17 @@ exports.login_user = [
             });
     })
 ];
+
+
+async function isAdmin(userId) {
+    try {
+        const admin = await adminInstance.findById(userId);
+        if (admin) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Error checking admin status:', error);
+        return false;
+    }
+}

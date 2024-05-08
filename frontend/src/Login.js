@@ -34,7 +34,7 @@ const Login = () => {
     axios(config)
       .then((r) => {
         if (r.data.success) {
-          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id}))
+          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id, isAdmin: r.data.isAdmin}))
           navigate('/home');
         } else {
           window.alert('Email or password incorrect');
