@@ -66,5 +66,7 @@ router.post('/allchar/:id/delete', verifyTokenAdmin, char_controller.createChara
 router.get('/contributions', verifyToken, contribution_controller.getAllContributions);
 router.put('/contributions', verifyTokenAdmin, contribution_controller.updateContribution);
 
+/* change verifytoken to verifytokenadmin */
+router.get('/history', verifyToken, contribution_controller.getHistory);
 
 module.exports = router;
