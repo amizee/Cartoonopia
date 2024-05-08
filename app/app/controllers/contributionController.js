@@ -198,7 +198,6 @@ module.exports.handleContribution = handleContribution;
 async function getAll() {
     try {
         const all = await contributionInstance.find();
-        console.log("All contributions: ", all);
         return all;
     } catch (error) {
         console.error('Error obtaining contributions: ', error);
