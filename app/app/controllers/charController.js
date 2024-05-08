@@ -63,7 +63,10 @@ module.exports.createCharacterContribution = [
         const newContributionId = await generateContributionId();
         console.log("new contribution id: ", newContributionId);
 
-        const currentDate = new Date();
+        const date = new Date();
+        const rawDate = date.toISOString().split('.')[0] + 'Z';
+        const currentDate = rawDate.toString();
+
         const { 
             id,
             name, 
@@ -130,7 +133,7 @@ module.exports.createCharacterContribution = [
             action: actionType,
             status: "Pending", //depends on user or admin
             reviewed_by: null,
-            date: currentDate,
+            date: String(currentDate),
             data: data
         });
 
@@ -151,14 +154,14 @@ module.exports.createCharacterContribution = [
 ];
 
 async function generateContributionId() {
-    const latest = await contributionInstance.findOne().sort({date: -1});
+    const latest = await contributionInstance.aggregate([
+        { $group: { _id: null, maxId: { $max: { $toInt: "$contribution_id" } } } }
+    ]).exec();
+    
+    const maxId = latest.length > 0 ? latest[0].maxId : 0;
+    const nextId = maxId + 1;
 
-    let nextId = 1;
-    if (latest) {
-        const latestId = Number(latest.contribution_id);
-        nextId = latestId + 1;
-    }
-
+    console.log("Next contribution id: ", nextId);
     return String(nextId);
 }
 

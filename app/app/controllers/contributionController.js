@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const { ObjectId } = require('mongodb');
 const contributionInstance = require('../models/contribution');
 const characterInstance = require('../models/character');
+const userController = require('../controllers/userController');
 
 module.exports.getAllContributions = [
     asyncHandler(async (req, res, next) => {
@@ -39,6 +40,102 @@ module.exports.updateContribution = [
         });
     })
 ];
+
+module.exports.getHistory = [
+    asyncHandler(async (req, res, next) => {
+
+        try {
+            const listOfCharacters = await characterInstance.find();
+            console.log("list of characters: ", listOfCharacters);
+            const historyData = {}
+            for (x in listOfCharacters) {
+                const char = listOfCharacters[x];
+                console.log("LOC CHAR: ", char);
+                const filter = {
+                    "data.id": char.id,
+                    status: "Approved"
+                }
+
+                console.log("filter: ", filter);
+                
+                const charHistory = [];
+                const firstIteration = {
+                    id: null,
+                    name: null,
+                    description: null,
+                    subtitle: null,
+                    image_url: null,
+                    strength: 0,
+                    speed: 0,
+                    skill: 0,
+                    fear_factor: 0,
+                    power: 0,
+                    intelligence: 0,
+                    wealth: 0
+                }
+                const charData = await contributionInstance.find(filter).sort({date: 1});
+                console.log("char data: ", charData);
+                for (i in charData) {
+                    const item = charData[i];
+                    if (item.action === "AddCharacter") {
+                        firstIteration.id = item.data.id;
+                        firstIteration.name = item.data.name;
+                        firstIteration.description = item.data.description;
+                        firstIteration.subtitle = item.data.subtitle;
+                        firstIteration.image_url = item.data.image_url;
+                        firstIteration.strength = item.data.strength;
+                        firstIteration.speed = item.data.speed;
+                        firstIteration.skill = item.data.skill;
+                        firstIteration.fear_factor = item.data.fear_factor;
+                        firstIteration.power = item.data.power;
+                        firstIteration.intelligence = item.data.intelligence;
+                        firstIteration.wealth = item.data.wealth;
+                        
+                        const result = [firstIteration, {
+                            action: "AddCharacter",
+                            user: userController.getUsernameById(item.user_id._id),
+                            reviewed_by: userController.getUsernameById(item.reviewed_by._id),
+                            date: item.date
+                        }];
+                        charHistory.push(result);
+                    } else if (item.action === "EditCharacter") {
+                        const statComp = {}
+                        for (stat in item.data) {
+                            if (stat === "id") {
+                                continue;
+                            }
+                            statComp[stat] = [firstIteration.stat, item.data.stat];
+                            firstIteration.stat = item.data.stat;
+                        }
+
+                        const result = [statComp, {
+                            action: "EditCharacter",
+                            user: userController.getUsernameById(item.user_id._id),
+                            reviewed_by: userController.getUsernameById(item.reviewed_by._id),
+                            date: item.date
+                        }];
+                        charHistory.push(result);
+                    } else if (item.action === "DeleteCharacter") {
+                        charHistory.push([firstIteration, {
+                            action: "DeleteCharacter",
+                            user: userController.getUsernameById(item.user_id._id),
+                            reviewed_by: userController.getUsernameById(item.reviewed_by._id),
+                            date: item.date
+                        }]);
+                    } else {
+                        console.log("how did we get here?");
+                    }
+                }
+                historyData[char.id] = charHistory;
+            }
+
+            console.log(historyData);
+            res.status(200).json(historyData);
+        } catch(e) {
+            console.log("Error getting history: ", e);
+        }
+    })
+]
 
 async function handleContribution(contributionId) {
     try {
@@ -94,6 +191,8 @@ async function handleContribution(contributionId) {
 }
 
 module.exports.handleContribution = handleContribution;
+
+
 
 
 async function getAll() {
