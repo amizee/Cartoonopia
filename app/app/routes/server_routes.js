@@ -61,7 +61,7 @@ router.post('/newchar', verifyToken, char_controller.createCharacterContribution
 
 /* Edit/delete character */
 router.post('/allchar/:id/edit', verifyToken, char_controller.createCharacterContribution);
-router.post('/allchar/:id/delete', verifyToken, char_controller.createCharacterContribution);
+router.post('/allchar/:id/delete', verifyTokenAdmin, char_controller.createCharacterContribution);
 
 router.get('/contributions', verifyToken, contribution_controller.getAllContributions);
 router.put('/contributions', verifyTokenAdmin, contribution_controller.updateContribution);

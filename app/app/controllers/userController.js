@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require("express-async-handler");
 const saltRounds = 10;
+const adminInstance = require('../models/admin');
 
 exports.create_user = [
     asyncHandler(async (req, res, next) => {
@@ -64,7 +65,7 @@ exports.login_user = [
                     });
                 } else {
                     bcrypt.compare(req.body.password, existingUser.password)
-                    .then(function(result) {
+                    .then(async function(result) {
                         if (result==true) {
 
                             const payload = {
@@ -74,11 +75,19 @@ exports.login_user = [
                             const token = jwt.sign(payload, 'SECRET_KEY', {
                                 expiresIn: '1h',
                             });
-
+                            
+                            var admin = await adminInstance.findById(existingUser._id.toString())
+                            if (admin) {
+                                admin = true;
+                            } else {
+                                admin = false;
+                            }
+                        
                             res.json({
                                 success: true,
                                 token: token,
-                                id: existingUser._id
+                                id: existingUser._id,
+                                admin : admin
                               });
                         } else {
                             res.json({

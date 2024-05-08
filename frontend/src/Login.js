@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import './static/css/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -34,7 +34,8 @@ const Login = () => {
     axios(config)
       .then((r) => {
         if (r.data.success) {
-          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id}))
+          console.log(r.data);
+          localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id, isAdmin: r.data.admin}))
           navigate('/home');
         } else {
           window.alert('Email or password incorrect');

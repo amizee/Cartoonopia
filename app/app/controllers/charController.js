@@ -1,7 +1,7 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
-
+const { ObjectId } = require('mongodb');
 const adminInstance = require('../models/admin');
 const userInstance = require('../models/user');
 const charInstance = require('../models/character');
@@ -14,7 +14,6 @@ const contributionController = require('./contributionController');
 
 module.exports.getAllChar = [
     asyncHandler(async (req, res, next) => {
-        
         const allChars = await getAllCharacters();
         res.status(200).json(allChars);
     }),
@@ -55,15 +54,11 @@ module.exports.getOneChar = [
 /* Create Character contribution*/
 module.exports.createCharacterContribution = [
     asyncHandler(async (req, res, next) => {
-        const userEmail = req.body.data.user_email;
-        console.log(userEmail);
-        const userInfo = await userInstance.findOne({email: userEmail});
-        const userId = userInfo._id;
-        const userObject = {
-            _id: userId
-        }
-        console.log("found user id: ", userId);        
 
+        const userObject = {
+            _id: new ObjectId(req.id)
+        }
+        
         console.log("request body: ", req.body);
         const newContributionId = await generateContributionId();
         console.log("new contribution id: ", newContributionId);
@@ -100,8 +95,11 @@ module.exports.createCharacterContribution = [
             }
             console.log("changed to edit")
             actionType = "EditCharacter";
+        } else if (req.path.endsWith("/delete")) {
+            actionType = "DeleteCharacter";
         }
-            
+
+
         const data = {
             id: id,
             name: name,
@@ -140,7 +138,7 @@ module.exports.createCharacterContribution = [
             .then( async () => {
                 console.log("Saved new contribution");
                 console.log(newContribution);
-                if (isAdmin(userId)) {
+                if (isAdmin(req.id)) {
                     const updateFields = {"$set": {status: "Accepted", reviewed_by: userObject}}
                     await contributionInstance.findOneAndUpdate({contribution_id: newContributionId}, updateFields);
                     await contributionController.handleContribution(newContributionId);
