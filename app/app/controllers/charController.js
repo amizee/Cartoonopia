@@ -139,7 +139,7 @@ module.exports.createCharacterContribution = [
                 console.log("Saved new contribution");
                 console.log(newContribution);
                 if (isAdmin(req.id)) {
-                    const updateFields = {"$set": {status: "Accepted", reviewed_by: userObject}}
+                    const updateFields = {"$set": {status: "Approved", reviewed_by: userObject}}
                     await contributionInstance.findOneAndUpdate({contribution_id: newContributionId}, updateFields);
                     await contributionController.handleContribution(newContributionId);
                 }

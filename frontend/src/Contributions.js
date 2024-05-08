@@ -16,7 +16,7 @@ function Contributions() {
             const response = await api.get('/contributions', { headers: {"Authorization" : `Bearer ${user.token}`} });
             setContributions(response.data);
           } catch (error) {
-            console.error('Error fetching contributions:', error);
+            console.error('Error fetching contributions:', error); 
           }
         }
     
