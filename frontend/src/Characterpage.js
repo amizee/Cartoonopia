@@ -5,6 +5,7 @@ import { BrowserRouter, Link, useParams, useNavigate } from 'react-router-dom';
 
 import './static/css/App.css';
 import './static/css/CharacterPage.css';
+import NavBar from './NavBar.js';
 
 function Characterpage() {
 	const [character, setCharacters] = useState(null);
@@ -60,6 +61,7 @@ function Characterpage() {
 
 	return (
         <div>
+        <NavBar/>
         <h1 class="heading">Character Details</h1>
         {character ? (
           
