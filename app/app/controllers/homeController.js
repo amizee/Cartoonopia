@@ -11,6 +11,11 @@ module.exports.getFavourites = [
         const userId = req.query.id;
         const userFavourites = await queryFavourites(userId);
 
+        if (userFavourites.length === 0) {
+            res.status(200).json({});
+            return;
+        }
+
         let favourites = {}; // character name: image_url
         for (const character of userFavourites[0].characters) {
             const image_url = await getImageUrlForCharacter(character);
