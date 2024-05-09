@@ -3,14 +3,16 @@ import axios from 'axios';
 import api from './api.js';
 import {BrowserRouter, Link, useNavigate, useParams} from 'react-router-dom';
 import { Card, Button, Container, Row, Col, ListGroup} from "react-bootstrap";
-import { Favourites } from './Home';
+import { Favourites, Contributions } from './Home';
 
 import './static/css/App.css';
 // import './static/css/User.css';
 
-function UserProfile() {
+function UserProfile(props) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isProfile } = props;
+
 
   return (
     <div className="App">
@@ -24,6 +26,7 @@ function UserProfile() {
       <body className="body-class">
       <div className="background-image-blur-whitewash"></div>
       <Favourites userId={id} />
+      <Contributions userId={id} isProfile={isProfile} />
       </body>
     </div>
   );

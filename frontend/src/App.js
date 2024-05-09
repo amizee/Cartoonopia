@@ -25,7 +25,7 @@ function App() {
           <Route path="/newchar" element={ <Addcharacter/> } />
           <Route path="/contributions" element={ <Contributions/> } />
           <Route path="/history" element={ <History/> } />
-          <Route path="/users/:id" element={ <UserProfile/>} />
+          <Route path="/users/:id" element={ <UserProfile isProfile={true}/>} />
         </Route>
         <Route path="/" element={<Login/>} />
         <Route path="/register" element={<Register />} />

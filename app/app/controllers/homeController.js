@@ -40,31 +40,30 @@ async function getImageUrlForCharacter(character) {
     return imageUrl;
 }
 
-async function getContributions(token) {
-    // const response = await axios.get('http://localhost:3000/test', {
-    //     headers: {
-    //         Authorization: token
-    //     }
-    // });
+module.exports.getContributions = [
+    asyncHandler(async (req, res, next) => {
+        const user_id = req.params.id;
+        const userId = new mongoose.Types.ObjectId(user_id);
+        try {
+            const contributions = await contributionInstance.find({'user_id._id': userId, 'status': 'Pending'});
+            res.status(200).json(contributions);
+        } catch (error) {
+            console.log(error);
+        }
+    }),
+]
 
-    // const userId = response.data.id;
-    try {
-        const contributions = await contributionInstance.find({user_id: '663366f2cae4641d62fd97a2'}).populate('user_id').exec();
-        return contributions;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-module.exports.deleteContributions = async function(id) {
-    try {
-        const contribution = await contributionInstance.findOneAndDelete({contribution_id: id});
-        console.log("Deleted", contribution);
-        return contribution;
-    } catch (error) {
-        console.log(error);
-    }
-}
+module.exports.deleteContributions = [
+    asyncHandler(async (req, res, next) => {
+        const contribution_id = req.params.id;
+        try {
+            const contribution = await contributionInstance.findOneAndDelete({contribution_id: contribution_id});
+            res.status(200).json(contribution);
+        } catch (error) {
+            console.log(error);
+        }
+    }),
+]
 
 module.exports.getUsers = [
     asyncHandler(async (req, res, next) => {

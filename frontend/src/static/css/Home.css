@@ -1,7 +1,6 @@
-#fav-container {
+#home-container {
     width: 80%;
     color: rgb(85, 85, 85);
-    margin-bottom: 0;
     background-color: transparent;
     margin-left: auto;
     margin-right: auto;
@@ -16,17 +15,6 @@
 
 .fav-card {
     margin-bottom: 10px;
-}
-
-#search {
-    width: 80%;
-    color: rgb(85, 85, 85);
-    background-color: transparent;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 3vh;
-    padding-right: 3vh;
-    padding-top: 2vh;
 }
 
 #search-form {
@@ -58,3 +46,38 @@
     text-decoration: none; /* remove underline */
     color: white;
 }
+
+.contribution-data {
+    margin: 0;
+    padding :0;
+}
+
+#delete-button {
+    background: none;
+    border: none;
+}
+
+.table-header {
+    background-color: #F1F1F1
+}
+
+th, td {
+    border: 1px solid black !important;
+    text-align: left;
+}
+
+td {
+    background-color: white;
+}
+
+#contributions-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+td:last-child {
+    border: none !important;
+    background-color: transparent !important;
+}
+

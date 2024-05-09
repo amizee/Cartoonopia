@@ -34,18 +34,13 @@ router.get('/allchar', verifyToken, char_controller.getAllChar);
 router.get('/allchar/:id', verifyToken, char_controller.getOneChar);
 //router.get('/allchar/:id', char_controller.getOneChar);
 
-router.get('/users/:id', async (req, res) => {
-    res.send("User " + req.params.id);
-});
+// router.get('/users/:id', async (req, res) => {
+//     res.send("User " + req.params.id);
+// });
 
-router.delete('/contributions/:id', async(req, res) => {
-    try {
-        const contribution = await user_controller.deleteContributions(req.params.id);
-        res.redirect('/');
-    } catch (error) {
-        res.status(401).json({ error: error });
-    }
-})
+router.get('/contributions/:id', verifyToken, home_controller.getContributions);
+
+router.delete('/contributions/:id', verifyToken, home_controller.deleteContributions);
 //null if contribution not found, maybe change error handling
 /* Get all characters */
 router.get('/allchar', verifyToken, char_controller.getAllChar);
