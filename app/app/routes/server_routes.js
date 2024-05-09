@@ -24,12 +24,7 @@ router.delete('/admin', verifyTokenAdmin, admin_controller.deleteAdmin);
 
 router.get('/favourites', verifyToken, home_controller.getFavourites);
 
-router.get('/users', async (req, res) => {
-    const query = req.query.value;
-    const results = await home_controller.getUsers(query); // Replace performSearch with your actual search function
-    // console.log("results", results)
-    res.json({ results });
-});
+router.get('/users', verifyToken, home_controller.getUsers);
 
 /* Get all characters (remove verifytoken for testing)*/
 router.get('/allchar', verifyToken, char_controller.getAllChar);

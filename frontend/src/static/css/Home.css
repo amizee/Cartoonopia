@@ -1,11 +1,13 @@
 #fav-container {
     width: 80%;
     color: rgb(85, 85, 85);
-    margin-bottom: 5vh;
+    margin-bottom: 0;
     background-color: transparent;
     margin-left: auto;
     margin-right: auto;
-    padding: 3vh;
+    padding-left: 3vh;
+    padding-right: 3vh;
+    padding-top: 2vh;
 }
 
 .fav-img {
@@ -14,4 +16,45 @@
 
 .fav-card {
     margin-bottom: 10px;
+}
+
+#search {
+    width: 80%;
+    color: rgb(85, 85, 85);
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3vh;
+    padding-right: 3vh;
+    padding-top: 2vh;
+}
+
+#search-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-input {
+    height: 50px;
+    width: 20%;
+}
+.search-form {
+    height: 50px;
+}
+
+#search-results {
+    background-color: rgba(34, 29, 29, 0.7);
+    padding: 1vh;
+    margin: 0;
+    border: transparent;
+}
+
+#search-results:hover {
+    background-color: rgba(34, 29, 29, 0.6);
+}
+
+#user-link {
+    text-decoration: none; /* remove underline */
+    color: white;
 }

@@ -61,23 +61,24 @@ module.exports.deleteContributions = async function(id) {
     }
 }
 
-module.exports.getUsers = async function(query) {
-    const nameSplit = query.split(" ");
-    const firstname = nameSplit[0];
-    const lastname = nameSplit[1];
-    let filter;
-    if (lastname != null && lastname.length > 0) {
-        filter = {
-            firstname: { $regex: new RegExp(firstname, 'i') }, // case-insensitive search
-            lastname: { $regex: new RegExp(lastname, 'i') }
-        };
-    } else {
-        filter = {
-            firstname: { $regex: new RegExp(firstname, 'i') },
-        };
-    }
-    const users = await userInstance.find(filter);
-    console.log(users);
-    return users;
-}
-
+module.exports.getUsers = [
+    asyncHandler(async (req, res, next) => {
+        const input = req.query.input;
+        const nameSplit = input.split(" ");
+        const firstname = nameSplit[0];
+        const lastname = nameSplit[1];
+        let filter;
+        if (lastname != null && lastname.length > 0) {
+            filter = {
+                firstname: { $regex: new RegExp(firstname, 'i') }, // case-insensitive search
+                lastname: { $regex: new RegExp(lastname, 'i') }
+            };
+        } else {
+            filter = {
+                firstname: { $regex: new RegExp(firstname, 'i') },
+            };
+        }
+        const users = await userInstance.find(filter);
+        res.status(200).json(users);
+    }),
+]
