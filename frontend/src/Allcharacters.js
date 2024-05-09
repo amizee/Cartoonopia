@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import './static/css/App.css';
 import './static/css/Allcharacters.css';
-
+import NavBar from './NavBar.js';
 
 function Allcharacters() {
 	const [characters, setCharacters] = useState([]);
@@ -28,13 +28,8 @@ function Allcharacters() {
 	return (
       <div className="App">
         <header className="App-header">
-        <div className="top-bar">
-          <h1 className="logo-title">Cartoonopia!</h1>
-          <button className="nav-button" onClick={() => navigate('/home')}>Go Home</button>
-          <button className="nav-button" onClick={() => navigate('/home')}>User Profile</button>
-          <button className="nav-button" onClick={() => navigate('/home')}>All Users</button>
-          <button className="nav-button" onClick={() => navigate('/allchar')}>All Characters</button>
-        </div>
+        
+          <NavBar/>
 
           <h1 class="all-characters-header">All Characters</h1>
           <nav>

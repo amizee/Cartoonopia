@@ -67,6 +67,6 @@ router.get('/contributions', verifyToken, contribution_controller.getAllContribu
 router.put('/contributions', verifyTokenAdmin, contribution_controller.updateContribution);
 
 /* change verifytoken to verifytokenadmin */
-router.get('/history', verifyToken, contribution_controller.getHistory);
+router.get('/history', verifyTokenAdmin, contribution_controller.getHistory);
 
 module.exports = router;

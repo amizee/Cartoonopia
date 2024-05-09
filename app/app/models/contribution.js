@@ -6,7 +6,7 @@ const contributionSchema = new mongoose.Schema({
     action: String,
     status: String,
     reviewed_by: Object,
-    date: Date,
+    date: String,
     data: {
         id: String,
         active: Boolean,

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import './static/css/App.css';
 import './static/css/EditCharacter.css';
-
+import NavBar from './NavBar.js';
 
 function EditCharacter({ onSubmit }) {
     const navigate   = useNavigate();
@@ -105,6 +105,7 @@ function EditCharacter({ onSubmit }) {
 
   return (
     <div>
+      <NavBar/>
       <body>
         <div class="background-image-blur-whitewash"></div>
       </body>

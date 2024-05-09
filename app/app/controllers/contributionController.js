@@ -65,13 +65,13 @@ module.exports.getHistory = [
                     description: null,
                     subtitle: null,
                     image_url: null,
-                    strength: 0,
-                    speed: 0,
-                    skill: 0,
-                    fear_factor: 0,
-                    power: 0,
-                    intelligence: 0,
-                    wealth: 0
+                    strength: null,
+                    speed: null,
+                    skill: null,
+                    fear_factor: null,
+                    power: null,
+                    intelligence: null,
+                    wealth: null
                 }
                 const charData = await contributionInstance.find(filter).sort({date: 1});
                 console.log("char data: ", charData);
@@ -91,42 +91,63 @@ module.exports.getHistory = [
                         firstIteration.intelligence = item.data.intelligence;
                         firstIteration.wealth = item.data.wealth;
                         
+                        const userName = await userController.getUsernameById(item.user_id._id);
+                        const approveName = await userController.getUsernameById(item.reviewed_by._id);
                         const result = [firstIteration, {
                             action: "AddCharacter",
-                            user: userController.getUsernameById(item.user_id._id),
-                            reviewed_by: userController.getUsernameById(item.reviewed_by._id),
+                            user: userName,
+                            reviewed_by: approveName,
                             date: item.date
                         }];
                         charHistory.push(result);
                     } else if (item.action === "EditCharacter") {
                         const statComp = {}
-                        for (stat in item.data) {
-                            if (stat === "id") {
-                                continue;
+                        const changeData = item.data;
+                        console.log("itemdata: ", changeData);
+                        for (const key in changeData) {
+                            if (!changeData[key]) {
+                                delete changeData[key];
                             }
-                            statComp[stat] = [firstIteration.stat, item.data.stat];
-                            firstIteration.stat = item.data.stat;
                         }
-
+                        
+                        for (const stat in changeData) {
+                            if (changeData.hasOwnProperty(stat)) {
+                                console.log("edit stat: ", stat);
+                                if (stat === "id") {
+                                    continue;
+                                }
+                                statComp[stat] = [firstIteration[stat], changeData[stat]];
+                                firstIteration[stat] = changeData[stat];
+                            }
+                            
+                        }
+                        //console.log("statcomp: ", statComp);
+                        const userName = await userController.getUsernameById(item.user_id._id);
+                        const approveName = await userController.getUsernameById(item.reviewed_by._id);
                         const result = [statComp, {
                             action: "EditCharacter",
-                            user: userController.getUsernameById(item.user_id._id),
-                            reviewed_by: userController.getUsernameById(item.reviewed_by._id),
+                            user: userName,
+                            reviewed_by: approveName,
                             date: item.date
                         }];
                         charHistory.push(result);
                     } else if (item.action === "DeleteCharacter") {
+                        const userName = await userController.getUsernameById(item.user_id._id);
+                        const approveName = await userController.getUsernameById(item.reviewed_by._id);
                         charHistory.push([firstIteration, {
                             action: "DeleteCharacter",
-                            user: userController.getUsernameById(item.user_id._id),
-                            reviewed_by: userController.getUsernameById(item.reviewed_by._id),
+                            user: userName,
+                            reviewed_by: approveName,
                             date: item.date
                         }]);
                     } else {
                         console.log("how did we get here?");
                     }
                 }
-                historyData[char.id] = charHistory;
+                if (charHistory.length > 0) {
+                    historyData[char.id] = charHistory;
+                }
+                
             }
 
             console.log(historyData);
