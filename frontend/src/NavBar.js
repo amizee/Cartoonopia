@@ -5,6 +5,11 @@ function NavBar() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
 
+    const onButtonClickLogOut = () => {
+        localStorage.removeItem('user');
+        navigate('/');
+    };
+
     return (
         <div className="top-bar">
             <h1 className="logo-title">Cartoonopia!</h1>
@@ -21,6 +26,8 @@ function NavBar() {
             ) : (
               <div></div>
             )}
+            <button className="nav-button" onClick={onButtonClickLogOut}>Logout</button>
+            
         </div>
     );
 }
