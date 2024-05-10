@@ -190,7 +190,7 @@ function SearchBar({searchInput, onInputChange}) {
         <ListGroup>
           {users.map(user => (
             <ListGroup.Item key={user._id} id="search-results">
-              <Link id="user-link" to={`/users/${user._id}`}>{user.firstname + " " + user.lastname}</Link>
+              <Link id="user-link" to={`/users/${user.firstname}-${user.lastname}`}>{user.firstname + " " + user.lastname}</Link>
             </ListGroup.Item>
           ))}
         </ListGroup>

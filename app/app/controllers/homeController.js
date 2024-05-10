@@ -86,3 +86,15 @@ module.exports.getUsers = [
         res.status(200).json(users);
     }),
 ]
+
+module.exports.getUser = [
+    asyncHandler(async (req, res, next) => {
+        const name = req.query.name;
+        const nameSplit = name.split("-");
+        const firstname = nameSplit[0];
+        const lastname = nameSplit[1];
+
+        const userId = await userInstance.findOne({'firstname': firstname, 'lastname': lastname}).select('_id');
+        res.status(200).json({userId});
+    }),
+]
