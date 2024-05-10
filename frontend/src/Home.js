@@ -9,6 +9,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 
 import './static/css/App.css';
 import './static/css/Home.css';
+import NavBar from './NavBar.js';
 
 function Favourites({ userId }) {
   const navigate = useNavigate();
@@ -207,10 +208,7 @@ function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="top-bar">
-          <h1 className="logo-title">Cartoonopia!</h1><button className="nav-button" onClick={() => navigate('/home')}>Home</button>
-          <button className="nav-button" onClick={() => navigate('/home')}>Users</button>
-          <button className="nav-button" onClick={() => navigate('/allchar')}>Characters</button></div>
+        <NavBar/>
       </header>
       <body className="body-class">
       <div className="background-image-blur-whitewash"></div>

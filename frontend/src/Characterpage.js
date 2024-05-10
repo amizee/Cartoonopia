@@ -8,6 +8,7 @@ import {IoIosHeartEmpty} from "react-icons/io";
 
 import './static/css/App.css';
 import './static/css/CharacterPage.css';
+import NavBar from './NavBar.js';
 
 
 function HeartIcon({ character }) {
@@ -148,6 +149,7 @@ function Characterpage() {
 
 	return (
         <div>
+        <NavBar/>
         <h1 class="heading">Character Details</h1>
         {character ? (
           <div class="container">

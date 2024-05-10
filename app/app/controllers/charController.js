@@ -141,7 +141,8 @@ module.exports.createCharacterContribution = [
             .then( async () => {
                 console.log("Saved new contribution");
                 console.log(newContribution);
-                if (isAdmin(req.id)) {
+                if (await isAdmin(req.id)) {
+                    console.log("automatically approved");
                     const updateFields = {"$set": {status: "Approved", reviewed_by: userObject}}
                     await contributionInstance.findOneAndUpdate({contribution_id: newContributionId}, updateFields);
                     await contributionController.handleContribution(newContributionId);
@@ -180,10 +181,11 @@ async function isAdmin(userId) {
     try {
         const admin = await adminInstance.findById(userId);
         console.log("is admin: ", admin);
-        if (admin) {
+        if (admin === null) {
+            return false;
+        } else {
             return true;
         }
-        return false;
     } catch (error) {
         console.error('Error checking admin status:', error);
         return false;

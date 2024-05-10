@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from './api.js';
 import { useNavigate } from 'react-router-dom';
-
+import NavBar from './NavBar.js';
 import './static/css/App.css';
 import './static/css/EditCharacter.css';
 
@@ -52,6 +52,7 @@ function Addcharacter({ onSubmit }) {
 
   return (
     <div>
+      <NavBar/>
       <body>
         <div class="background-image-blur-whitewash"></div>
       </body>
