@@ -128,7 +128,7 @@ function Contributions({ userId, isProfile }) {
                   <p key={index} className="contribution-data">{key}: {contribution.data[key]}</p>
                 ))}
               </td>
-              {!isProfile ? ( /* if this is a user profile ignore the delete button*/
+              {(!isProfile && contribution.status === 'Pending') ? ( /* if this is a user profile ignore the delete button*/
                 <td>
                   <button id="delete-button" onClick={() => handleDelete(contribution.contribution_id)}>
                     <MdDelete size={20}/>

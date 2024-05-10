@@ -45,7 +45,7 @@ module.exports.getContributions = [
         const user_id = req.params.id;
         const userId = new mongoose.Types.ObjectId(user_id);
         try {
-            const contributions = await contributionInstance.find({'user_id._id': userId, 'status': 'Pending'});
+            const contributions = await contributionInstance.find({'user_id._id': userId});
             res.status(200).json(contributions);
         } catch (error) {
             console.log(error);
