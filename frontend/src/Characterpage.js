@@ -43,7 +43,6 @@ function Characterpage() {
           "id" : id
         }
       }
-
     };
 
     axios(config)
