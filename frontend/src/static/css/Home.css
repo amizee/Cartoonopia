@@ -81,3 +81,14 @@ td:last-child {
     background-color: transparent !important;
 }
 
+.outline {
+    fill: none;
+    stroke: white !important; /* Outline color */
+    stroke-width: 2px !important;
+}
+
+.fav-button {
+    background: none;
+    border: none;
+}
+

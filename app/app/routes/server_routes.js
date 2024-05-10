@@ -7,6 +7,8 @@ const char_controller = require('../controllers/charController');
 const admin_controller = require('../controllers/adminController.js')
 const contribution_controller = require("../controllers/contributionController");
 const home_controller = require("../controllers/homeController");
+const favourite_controller = require("../controllers/favouritesController");
+const {verify} = require("jsonwebtoken");
 
 router.post(
     "/signup",
@@ -23,6 +25,8 @@ router.delete('/admin', verifyTokenAdmin, admin_controller.deleteAdmin);
 
 
 router.get('/favourites', verifyToken, home_controller.getFavourites);
+router.post('/favourites', verifyToken, favourite_controller.addFavourite);
+router.delete('/favourites', verifyToken, favourite_controller.deleteFavourite);
 
 router.get('/users', verifyToken, home_controller.getUsers);
 
