@@ -29,7 +29,7 @@ router.post('/favourites', verifyToken, favourite_controller.addFavourite);
 router.delete('/favourites', verifyToken, favourite_controller.deleteFavourite);
 
 router.get('/users', verifyToken, home_controller.getUsers);
-
+router.get('/user', verifyToken, home_controller.getUser);
 /* Get all characters (remove verifytoken for testing)*/
 router.get('/allchar', verifyToken, char_controller.getAllChar);
 //router.get('/allchar', char_controller.getAllChar);

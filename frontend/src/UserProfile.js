@@ -1,18 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import api from './api.js';
 import {BrowserRouter, Link, useNavigate, useParams} from 'react-router-dom';
-import { Card, Button, Container, Row, Col, ListGroup} from "react-bootstrap";
 import { Favourites, Contributions } from './Home';
 
 import './static/css/App.css';
-// import './static/css/User.css';
 
 function UserProfile(props) {
-  const { id } = useParams();
+  const { name } = useParams();
   const navigate = useNavigate();
   const { isProfile } = props;
+  const [id, setId] = useState('');
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    async function getUserId() {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const config = {
+          method: "get",
+          url: "http://127.0.0.1:5000/user",
+          headers: {"Authorization": `Bearer ${user.token}`},
+          params: {
+            "name": name
+          },
+        };
+        const response = await axios(config);
+        setId(response.data.userId._id);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching users: ', error);
+      }
+    }
+
+    getUserId();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="App">
