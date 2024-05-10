@@ -7,6 +7,9 @@ import './static/css/EditCharacter.css';
 
 function Addcharacter({ onSubmit }) {
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+    const [showPopupExisting, setShowPopupExisting] = useState(false);
+
     const [formData, setFormData] = useState({
         name: '',
         id: '',
@@ -37,17 +40,37 @@ function Addcharacter({ onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        formData["user_email"] = user.email;
-        console.log(user);
-        console.log("formdata: ", formData);
-        const response = await api.post(`/newchar`, { data: formData }, { headers: {"Authorization" : `Bearer ${user.token}`} });
-        console.log('Character added: ', response);
-        navigate(`/allchar`);
-    } catch (error) {
-        console.error('Error adding character:', error);
+    if (!isFormValid()) {
+      setShowPopup(true);
+    } else {
+      try {
+
+          
+          const user = JSON.parse(localStorage.getItem('user'));
+
+          const existingChar = await api.get(`/allchar/${formData.id}`, { headers: {"Authorization" : `Bearer ${user.token}`} });
+          console.log("existing char?: ", existingChar);
+          if (existingChar !== null) {
+            
+            setShowPopupExisting(true);
+            return;
+          }
+
+          formData["user_email"] = user.email;
+          console.log(user);
+          console.log("formdata: ", formData);
+          const response = await api.post(`/newchar`, { data: formData }, { headers: {"Authorization" : `Bearer ${user.token}`} });
+          console.log('Character added: ', response);
+          navigate(`/allchar`);
+      } catch (error) {
+          console.error('Error adding character:', error);
+      }
     }
+    
+  };
+
+  const isFormValid = () => {
+    return Object.values(formData).every(value => value !== '');
   };
 
   return (
@@ -96,6 +119,20 @@ function Addcharacter({ onSubmit }) {
           <input type="text" name="image_url" value={formData.image_url} onChange={handleChange} /><br />
 
           <button type="submit" onSubmit={handleSubmit}>Submit</button>
+
+          {showPopup && (
+            <div className="popup">
+                <p>Please fill out all fields.</p>
+                <button onClick={() => setShowPopup(false)} className="popup-button">OK</button>
+            </div>
+          )}
+          {showPopupExisting && (
+            <div className="popup">
+                <p>Character with same ID already exists.</p>
+                <button onClick={() => setShowPopupExisting(false)} className="popup-button">OK</button>
+            </div>
+          )}
+
         </form>
       </div>
     </div>
