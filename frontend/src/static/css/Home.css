@@ -1,11 +1,12 @@
-#fav-container {
+#home-container {
     width: 80%;
     color: rgb(85, 85, 85);
-    margin-bottom: 5vh;
     background-color: transparent;
     margin-left: auto;
     margin-right: auto;
-    padding: 3vh;
+    padding-left: 3vh;
+    padding-right: 3vh;
+    padding-top: 2vh;
 }
 
 .fav-img {
@@ -15,3 +16,79 @@
 .fav-card {
     margin-bottom: 10px;
 }
+
+#search-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-input {
+    height: 50px;
+    width: 20%;
+}
+.search-form {
+    height: 50px;
+}
+
+#search-results {
+    background-color: rgba(34, 29, 29, 0.7);
+    padding: 1vh;
+    margin: 0;
+    border: transparent;
+}
+
+#search-results:hover {
+    background-color: rgba(34, 29, 29, 0.6);
+}
+
+#user-link {
+    text-decoration: none; /* remove underline */
+    color: white;
+}
+
+.contribution-data {
+    margin: 0;
+    padding :0;
+}
+
+#delete-button {
+    background: none;
+    border: none;
+}
+
+.table-header {
+    background-color: #F1F1F1
+}
+
+th, td {
+    border: 1px solid black !important;
+    text-align: left;
+}
+
+td {
+    background-color: white;
+}
+
+#contributions-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+td:last-child {
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.outline {
+    fill: none;
+    stroke: white !important; /* Outline color */
+    stroke-width: 2px !important;
+}
+
+.fav-button {
+    background: none;
+    border: none;
+}
+

@@ -10,6 +10,7 @@ import Addcharacter from './Addcharacter.js';
 import Contributions from './Contributions';
 import History from './History.js';
 import Protected from './Protected';
+import UserProfile from "./UserProfile";
 
 function App() {
   
@@ -24,6 +25,7 @@ function App() {
           <Route path="/newchar" element={ <Addcharacter/> } />
           <Route path="/contributions" element={ <Contributions/> } />
           <Route path="/history" element={ <History/> } />
+          <Route path="/users/:id" element={ <UserProfile isProfile={true}/>} />
         </Route>
         <Route path="/" element={<Login/>} />
         <Route path="/register" element={<Register />} />

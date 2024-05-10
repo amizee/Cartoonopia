@@ -8,10 +8,9 @@ function NavBar() {
     return (
         <div className="top-bar">
             <h1 className="logo-title">Cartoonopia!</h1>
-            <button className="nav-button" onClick={() => navigate('/home')}>Go Home</button>
-            <button className="nav-button" onClick={() => navigate('/home')}>User Profile</button>
-            <button className="nav-button" onClick={() => navigate('/home')}>All Users</button>
-            <button className="nav-button" onClick={() => navigate('/allchar')}>All Characters</button>
+            <button className="nav-button" onClick={() => navigate('/home')}>Home</button>
+            <button className="nav-button" onClick={() => navigate('/home')}>Users</button>
+            <button className="nav-button" onClick={() => navigate('/allchar')}>Characters</button>
             {user.isAdmin ? (
                 <button className="nav-button" onClick={() => navigate('/contributions')}>Contributions</button>
             ) : (

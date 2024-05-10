@@ -28,7 +28,7 @@ function Allcharacters() {
 	return (
       <div className="App">
         <header className="App-header">
-        
+
           <NavBar/>
 
           <h1 class="all-characters-header">All Characters</h1>
