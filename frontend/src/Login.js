@@ -30,7 +30,6 @@ const Login = () => {
     axios(config)
       .then((r) => {
         if (r.data.success) {
-          console.log(r.data);
           localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id, isAdmin: r.data.admin}))
           navigate('/home');
         } else {
