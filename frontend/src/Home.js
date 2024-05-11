@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import api from './api.js';
 import { BrowserRouter, Link, useNavigate } from 'react-router-dom';
 import { Card, Button, Table, Row, Col, ListGroup} from "react-bootstrap";
 import {MdDelete} from "react-icons/md";
-import { IconContext } from "react-icons";
-import { IoIosHeartEmpty } from "react-icons/io";
+
 
 import './static/css/App.css';
 import './static/css/Home.css';
@@ -278,7 +276,7 @@ function SearchBar({searchInput, onInputChange}) {
   );
 }
 
-function Comparisons({searchInput, onInputChange}) {
+/* function Comparisons({searchInput, onInputChange}) {
   const [characters, setCharacters] = useState([]);
   // some rows have the same key e.g. key={asd} because their names/ids are the same => need validation
   useEffect(() => {
@@ -354,7 +352,7 @@ function Comparisons({searchInput, onInputChange}) {
       </div>
   </div>
   );
-}
+} */
 
 function Home() {
   const navigate = useNavigate();
@@ -371,8 +369,8 @@ function Home() {
       <Favourites userId={JSON.parse(localStorage.getItem('user')).id}/>
       <Contributions userId={JSON.parse(localStorage.getItem('user')).id} isProfile={false}/>
       <SearchBar searchInput={searchInput} onInputChange={setSearchInput}/>
-      <Comparisons searchInput={searchCharInput} onInputChange={setSearchCharInput}/>
-      </body>
+{/*       <Comparisons searchInput={searchCharInput} onInputChange={setSearchCharInput}/>
+ */}      </body>
     </div>
   );
 }
