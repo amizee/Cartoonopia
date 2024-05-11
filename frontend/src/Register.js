@@ -55,6 +55,7 @@ const Register = () => {
 
   return (
     <div className="register-container">
+      <div class="background-image-blur-whitewash"></div>
       <h2 className="text-center">Signup to create an account</h2>
 
       <Form onSubmit={(e) => handleSubmit(e)}>
@@ -99,7 +100,7 @@ const Register = () => {
           <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
         </Form.Group>
 
-        <Button type="submit" className="btn-register">Register</Button>
+        <button type="submit" className="btn-register">Register</button>
       </Form>
 
       {/* Display success message */}
