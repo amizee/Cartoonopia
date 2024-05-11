@@ -12,11 +12,7 @@ const Login = () => {
   const onButtonClickSignup = () => {
     navigate('/register');
   };
-
-  const onButtonClickLogOut = () => {
-    localStorage.removeItem('user');
-    navigate('/');
-  };
+  
   const user = JSON.parse(localStorage.getItem('user'));
 
   const handleSubmit = (e) => {
@@ -48,7 +44,6 @@ const Login = () => {
 
   return (
     <div>
-        { !user ? (
           <div className="login-container">
             <h2 className="text-center">Welcome</h2>
             <Form onSubmit={(e) => handleSubmit(e)}>
@@ -78,12 +73,7 @@ const Login = () => {
               <Button variant="link" onClick={onButtonClickSignup}>Sign up for free</Button>
             </div>
           </div>
-        ) : (
-          <div className="text-center">
-            <Button variant="link" onClick={onButtonClickLogOut}>Logout</Button>
-          </div>
-            
-        )} 
+        
     </div>
    
   );
