@@ -5,6 +5,8 @@ const userInstance = require('../models/user');
 const characterInstance = require('../models/character');
 const axios = require("axios");
 const mongoose = require("mongoose");
+const charController = require('./charController');
+const adminInstance = require("../models/admin");
 
 module.exports.getFavourites = [
     asyncHandler(async (req, res, next) => {
@@ -19,27 +21,20 @@ module.exports.getFavourites = [
 
         let favourites = {}; // character name: image_url
         for (const charId of userFavourites[0].characters) {
-            const image_url = await getImageUrlForCharacter(charId);
-            const charName = await getCharName(charId);
-            favourites[charId] = image_url; // change this to charName when a name is guaranteed to exist
+            const res = await getUrlAndNameForCharacter(charId);
+            favourites[charId] = res;
         }
-
+        console.log('favourites', favourites);
         res.status(200).json(favourites);
     }),
 ];
 
-async function getImageUrlForCharacter(character) {
+async function getUrlAndNameForCharacter(character) {
     filter = {
         id: { $regex: new RegExp(character, 'i') },
     };
-    const imageUrl = await characterInstance.find(filter).select('image_url');
-    return imageUrl;
-}
-
-async function getCharName(charId) {
-    filter = {id: charId};
-    const charName = await characterInstance.find(filter).select('name');
-    return charName;
+    const res = await characterInstance.find(filter).select('image_url name');
+    return res;
 }
 
 module.exports.getContributions = [
@@ -70,6 +65,7 @@ module.exports.deleteContributions = [
 module.exports.getUsers = [
     asyncHandler(async (req, res, next) => {
         const input = req.query.input;
+        const id = req.query.id;
         const nameSplit = input.split(" ");
         const firstname = nameSplit[0];
         const lastname = nameSplit[1];
@@ -85,7 +81,16 @@ module.exports.getUsers = [
             };
         }
         const users = await userInstance.find(filter);
-        res.status(200).json(users);
+        const updatedUsers = await Promise.all(users.map(async user => {
+            let admin = await adminInstance.findById(id);
+            admin = admin !== null;
+            return {
+                user, // Keep existing properties
+                isAdmin: admin
+            };
+        }));
+        // console.log("updated user", updatedUsers);
+        res.status(200).json(updatedUsers);
     }),
 ]
 
@@ -98,5 +103,14 @@ module.exports.getUser = [
 
         const userId = await userInstance.findOne({'firstname': firstname, 'lastname': lastname}).select('_id');
         res.status(200).json({userId});
+    }),
+]
+
+module.exports.getCharacters = [
+    asyncHandler(async (req, res, next) => {
+        const input = req.query.input;
+        const filter = {name: { $regex: new RegExp(input, 'i') },};
+        const characters = await characterInstance.find(filter);
+        res.status(200).json(characters);
     }),
 ]
