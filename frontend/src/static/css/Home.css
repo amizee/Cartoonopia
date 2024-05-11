@@ -17,6 +17,10 @@
     margin-bottom: 10px;
 }
 
+.demote-button {
+    margin-left:50px;
+}
+
 #search-form {
     display: flex;
     align-items: center;

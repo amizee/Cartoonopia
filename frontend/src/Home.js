@@ -166,6 +166,43 @@ function Contributions({ userId, isProfile }) {
 
 function SearchBar({searchInput, onInputChange}) {
   const [users, setUsers] = useState([]);
+  const current_user = JSON.parse(localStorage.getItem('user'));
+
+  async function demote(e, id) {
+    e.preventDefault();
+
+    try {
+      const config = {
+        method: "delete",
+        url: "http://127.0.0.1:5000/admin",
+        headers: {"Authorization": `Bearer ${current_user.token}`},
+        data: {
+          "id": id
+        },
+      };
+      await axios(config);
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+    }
+  }
+
+  async function promote(e, id) {
+    e.preventDefault();
+    try {
+      const config = {
+        method: "post",
+        url: "http://127.0.0.1:5000/admin",
+        headers: {"Authorization": `Bearer ${current_user.token}`},
+        data: {
+          "id": id
+        },
+      };
+      await axios(config);
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+    }
+  }
+
 
   async function getUsers(e) {
     e.preventDefault();
@@ -205,7 +242,32 @@ function SearchBar({searchInput, onInputChange}) {
         <ListGroup>
           {users.map(user => (
             <ListGroup.Item key={user._id} id="search-results">
-              <Link id="user-link" to={`/users/${user.user.firstname}-${user.user.lastname}`}>{user.user.firstname + " " + user.user.lastname}</Link>
+              
+              {current_user.isAdmin ? (
+                <div>
+                  <Link id="user-link" to={`/users/${user.user.firstname}-${user.user.lastname}`}>{user.user.firstname + " " + user.user.lastname}</Link>
+                  {user.isAdmin && user.user._id !== current_user.id ? (
+                    <button className="demote-button" onClick={(e) => demote(e, user.user._id)}>Demote to user</button>
+                  ) : (
+                    <span></span>
+                  )}
+
+                  {current_user.isAdmin && !user.isAdmin ? (
+                    <button className="demote-button" onClick={(e) => promote(e, user.user._id)}>Promote to admin</button>
+                  ) : (
+                    <span></span>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <Link id="user-link" to={`/users/${user.user.firstname}-${user.user.lastname}`}>{user.user.firstname + " " + user.user.lastname}</Link>
+                </div>
+              )}
+
+              
+
+              
+
             </ListGroup.Item>
           ))}
         </ListGroup>
