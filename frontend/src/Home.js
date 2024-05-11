@@ -14,7 +14,6 @@ import NavBar from './NavBar.js';
 function Favourites({ userId }) {
   const navigate = useNavigate();
   const [favourites, setFavourites] = useState([]);
-  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchFavourites() {
@@ -61,7 +60,7 @@ function Favourites({ userId }) {
                   alt={key}
                 />
                 <Card.Body>
-                  <Card.Title>{key}</Card.Title>
+                  <Card.Title>{favourites[key][0].name}</Card.Title>
                   {/*<Button variant="dark" onClick={() => navigate(`/allchar/${key.replace(/ /g,'')}`)}>Learn more</Button>*/}
                 </Card.Body>
               </Card>
@@ -181,10 +180,12 @@ function SearchBar({searchInput, onInputChange}) {
         url: "http://127.0.0.1:5000/users",
         headers: {"Authorization": `Bearer ${user.token}`},
         params: {
-          "input": searchInput
+          "input": searchInput,
+          "id": JSON.parse(localStorage.getItem('user')).id
         },
       };
       const response = await axios(config);
+      console.log("user response", response);
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users: ', error);
@@ -204,7 +205,7 @@ function SearchBar({searchInput, onInputChange}) {
         <ListGroup>
           {users.map(user => (
             <ListGroup.Item key={user._id} id="search-results">
-              <Link id="user-link" to={`/users/${user.firstname}-${user.lastname}`}>{user.firstname + " " + user.lastname}</Link>
+              <Link id="user-link" to={`/users/${user.user.firstname}-${user.user.lastname}`}>{user.user.firstname + " " + user.user.lastname}</Link>
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -215,9 +216,88 @@ function SearchBar({searchInput, onInputChange}) {
   );
 }
 
+function Comparisons({searchInput, onInputChange}) {
+  const [characters, setCharacters] = useState([]);
+  // some rows have the same key e.g. key={asd} because their names/ids are the same => need validation
+  useEffect(() => {
+    async function fetchCharacters() {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await api.get('/allchar', { headers: {"Authorization" : `Bearer ${user.token}`} });
+        setCharacters(response.data);
+      } catch (error) {
+        console.error('Error fetching characters:', error);
+      }
+    }
+
+    fetchCharacters();
+  }, []);
+
+  async function matchCharacters(e) {
+    e.preventDefault();
+
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const config = {
+        method: "get",
+        url: "http://127.0.0.1:5000/characters",
+        headers: {"Authorization": `Bearer ${user.token}`},
+        params: {
+          "input": searchInput
+        },
+      };
+      const response = await axios(config);
+      console.log("matching characters", response.data);
+      setCharacters(response.data);
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+    }
+  }
+
+  return (
+    <div id="container">
+      <h2>Comparisons</h2>
+      <div id="search-table">
+        <form id="search-form" onSubmit={matchCharacters}>
+          <input className="char-search-input" type="text" value={searchInput} placeholder="Search characters"
+                 onChange={(e) => onInputChange(e.target.value)}/>
+          <Button className="search-form" variant="dark" type="submit">Search</Button>
+        </form>
+        <table id="character-table">
+          <tr className="header">
+            <th>Name</th>
+            <th>Strength</th>
+            <th>Speed</th>
+            <th>Skill</th>
+            <th>Fear Factor</th>
+            <th>Power</th>
+            <th>Intelligence</th>
+            <th>Wealth</th>
+            <th>Selected</th>
+          </tr>
+          {characters.map(character => (
+            <tr key={character.id}>
+              <td>{character.name}</td>
+              <td>{character.strength}</td>
+              <td>{character.speed}</td>
+              <td>{character.skill}</td>
+              <td>{character.fear_factor}</td>
+              <td>{character.power}</td>
+              <td>{character.intelligence}</td>
+              <td>{character.wealth}</td>
+              <td><input type="checkbox"/></td>
+            </tr>
+          ))}
+        </table>
+      </div>
+  </div>
+  );
+}
+
 function Home() {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState('');
+  const [searchCharInput, setSearchCharInput] = useState('');
 
   return (
     <div className="App">
@@ -229,6 +309,7 @@ function Home() {
       <Favourites userId={JSON.parse(localStorage.getItem('user')).id}/>
       <Contributions userId={JSON.parse(localStorage.getItem('user')).id} isProfile={false}/>
       <SearchBar searchInput={searchInput} onInputChange={setSearchInput}/>
+      <Comparisons searchInput={searchCharInput} onInputChange={setSearchCharInput}/>
       </body>
     </div>
   );

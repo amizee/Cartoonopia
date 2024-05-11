@@ -1,5 +1,5 @@
 #home-container {
-    width: 80%;
+    width: 70%;
     color: rgb(85, 85, 85);
     background-color: transparent;
     margin-left: auto;
@@ -26,6 +26,11 @@
 .search-input {
     height: 50px;
     width: 20%;
+}
+
+.char-search-input {
+    height: 50px;
+    width: 100%;
 }
 .search-form {
     height: 50px;
@@ -61,12 +66,12 @@
     background-color: #F1F1F1
 }
 
-th, td {
+#contributions-table th, td {
     border: 1px solid black !important;
     text-align: left;
 }
 
-td {
+#contributions-table td {
     background-color: white;
 }
 
@@ -76,19 +81,119 @@ td {
     border-collapse: collapse;
 }
 
-td:last-child {
+#contributions-table td:last-child {
     border: none !important;
     background-color: transparent !important;
 }
 
-.outline {
-    fill: none;
-    stroke: white !important; /* Outline color */
-    stroke-width: 2px !important;
-}
+/*.outline {*/
+/*    fill: none;*/
+/*    stroke: white !important; !* Outline color *!*/
+/*    stroke-width: 2px !important;*/
+/*}*/
 
 .fav-button {
     background: none;
     border: none;
+}
+
+#container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3vh;
+    padding-right: 3vh;
+    padding-top: 2vh;
+}
+
+.header {
+    border-bottom: 2px solid black;
+}
+
+#search-table {
+    flex: 0.8;
+}
+
+#search-table #search-input {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border: 2px solid #1f1f1f;
+    display: flex;
+    height: 40px;
+    flex: 1;
+    text-indent: 10px;
+}
+
+#search-table #search-input::placeholder {
+    font-weight: bold;
+}
+
+#character-table {
+    width: 100%;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+#character-table td {
+    padding: 10px;
+    font-weight: bold;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+#character-table tr:first-child td {
+    padding-left: 16px;
+    padding-top: 12px;
+    padding-bottom: 0px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Select header row of the character table */
+#character-table tr:first-child th {
+    text-align: left;
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-bottom: 8px;
+    background-color: rgba(242, 242, 242, 0.3);
+}
+
+#character-table td:not(:first-child) {
+    text-align: right;
+}
+
+#character-table tr:not(.header) {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+#character-table input[type="checkbox"] {
+    appearance: none;
+    width: 80%;
+    display: grid;
+    place-content: center;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#character-table input[type="checkbox"]::before {
+    content: "\2713";
+    font-weight: bold;
+    font-size: 23px;
+    font-family: "Anonymous Pro", monospace;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+    transform: scale(0);
+    border: 2px solid black;
+}
+
+#character-table input[type="checkbox"]:checked::before {
+    transform: scale(1);
 }
 
