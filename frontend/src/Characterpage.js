@@ -29,8 +29,9 @@ function HeartIcon({ character }) {
         const response = await axios(config);
 
         // If favourited, set heart to red
+        console.log("check favourites", response.data);
         Object.keys(response.data).map((key)  =>{
-          if (key === character.name.toLowerCase()) {
+          if (key === character.id) {
             setIsFavorited(true);
           }
         })
@@ -56,11 +57,12 @@ function HeartIcon({ character }) {
           url: `http://127.0.0.1:5000/favourites`,
           headers: {"Authorization" : `Bearer ${user.token}`},
           data: {
-            character: character.name,
+            character: character.id,
             id: user.id
           }
         };
         const response = await axios(config);
+        console.log("added character to favourites", response.data);
       } catch (error) {
         console.error('Error adding character:', error);
       }
@@ -72,12 +74,12 @@ function HeartIcon({ character }) {
           url: `http://127.0.0.1:5000/favourites/`,
           headers: {"Authorization" : `Bearer ${user.token}`},
           data: {
-            character: character.name,
+            character: character.id,
             id: user.id
           }
         };
         const response = await axios(config);
-        // console.log("deletion response ", response.data);
+        console.log("deletion response ", response.data);
       } catch (error) {
         console.error('Error deleting character: ', error);
       }
