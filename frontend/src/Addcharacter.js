@@ -56,14 +56,25 @@ function Addcharacter({ onSubmit }) {
             return;
           }
 
-          formData["user_email"] = user.email;
+          /* formData["user_email"] = user.email;
           console.log(user);
           console.log("formdata: ", formData);
           const response = await api.post(`/newchar`, { data: formData }, { headers: {"Authorization" : `Bearer ${user.token}`} });
           console.log('Character added: ', response);
-          navigate(`/allchar`);
+          navigate(`/allchar`); */
       } catch (error) {
-          console.error('Error adding character:', error);
+          if (error.response && error.response.status === 404) {
+            // Proceed if existingChar doesn't exist (404 error)
+            const user = JSON.parse(localStorage.getItem('user'));
+            formData["user_email"] = user.email;
+            console.log(user);
+            console.log("formdata: ", formData);
+            const response = await api.post(`/newchar`, { data: formData }, { headers: {"Authorization" : `Bearer ${user.token}`} });
+            console.log('Character added: ', response);
+            navigate(`/allchar`);
+        } else {
+            console.error('Error adding character:', error);
+        }
       }
     }
     
