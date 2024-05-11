@@ -81,15 +81,17 @@ module.exports.getUsers = [
             };
         }
         const users = await userInstance.find(filter);
+        // console.log(users);
         const updatedUsers = await Promise.all(users.map(async user => {
-            let admin = await adminInstance.findById(id);
+            let admin = await adminInstance.findById(user._id);
+            console.log(admin);
             admin = admin !== null;
             return {
                 user, // Keep existing properties
                 isAdmin: admin
             };
         }));
-        // console.log("updated user", updatedUsers);
+        console.log("updated user", updatedUsers);
         res.status(200).json(updatedUsers);
     }),
 ]
