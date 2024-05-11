@@ -8,36 +8,38 @@ const mongoose = require("mongoose");
 
 module.exports.getFavourites = [
     asyncHandler(async (req, res, next) => {
-        const userId = req.query.id;
-        const userFavourites = await queryFavourites(userId);
-
+        let userId = req.query.id;
+        userId = new mongoose.Types.ObjectId(userId);
+        const filter = { 'user_id._id': userId };
+        const userFavourites = await favouriteInstance.find(filter); // favourite chars by char_id
         if (userFavourites.length === 0) {
             res.status(200).json({});
             return;
         }
 
         let favourites = {}; // character name: image_url
-        for (const character of userFavourites[0].characters) {
-            const image_url = await getImageUrlForCharacter(character);
-            favourites[character] = image_url;
+        for (const charId of userFavourites[0].characters) {
+            const image_url = await getImageUrlForCharacter(charId);
+            const charName = await getCharName(charId);
+            favourites[charId] = image_url; // change this to charName when a name is guaranteed to exist
         }
+
         res.status(200).json(favourites);
     }),
 ];
 
-async function queryFavourites(user_id) {
-    const userId = new mongoose.Types.ObjectId(user_id);
-    const query = { 'user_id._id': userId };
-    const favourites = await favouriteInstance.find(query);
-    return favourites;
-}
-
 async function getImageUrlForCharacter(character) {
     filter = {
-        name: { $regex: new RegExp(character, 'i') },
+        id: { $regex: new RegExp(character, 'i') },
     };
     const imageUrl = await characterInstance.find(filter).select('image_url');
     return imageUrl;
+}
+
+async function getCharName(charId) {
+    filter = {id: charId};
+    const charName = await characterInstance.find(filter).select('name');
+    return charName;
 }
 
 module.exports.getContributions = [

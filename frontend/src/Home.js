@@ -14,6 +14,7 @@ import NavBar from './NavBar.js';
 function Favourites({ userId }) {
   const navigate = useNavigate();
   const [favourites, setFavourites] = useState([]);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchFavourites() {
@@ -29,6 +30,7 @@ function Favourites({ userId }) {
         };
         const response = await axios(config);
         setFavourites(response.data);
+        console.log("favourites response", favourites);
       } catch (error) {
         console.error('Error fetching favourites: ', error);
       }
@@ -37,6 +39,7 @@ function Favourites({ userId }) {
     fetchFavourites();
   }, []);
 
+  console.log("favourites before render", favourites);
   return (
     <div id="home-container">
       <h2>Favourites</h2>
@@ -45,7 +48,18 @@ function Favourites({ userId }) {
           {Object.keys(favourites).map((key, index) => (
             <Col key={favourites[key][0]._id} xs={6} sm={4} md={3} lg={2}>
               <Card className="fav-card">
-                <Card.Img className="fav-img" variant="top" src={require(`./static/${favourites[key][0].image_url}`)} alt={key}/>
+                <Card.Img
+                  className="fav-img"
+                  variant="top"
+                  src={(() => {
+                    try {
+                      return require(`./static/${favourites[key][0].image_url}`);
+                    } catch (error) {
+                      return require('./static/images/placeholder.png');
+                    }
+                  })()}
+                  alt={key}
+                />
                 <Card.Body>
                   <Card.Title>{key}</Card.Title>
                   {/*<Button variant="dark" onClick={() => navigate(`/allchar/${key.replace(/ /g,'')}`)}>Learn more</Button>*/}

@@ -6,6 +6,7 @@ const {ObjectId} = require("mongodb");
 
 module.exports.addFavourite = [
   asyncHandler(async (req, res, next) => {
+    // console.log("goes to update");
     const userId = new mongoose.Types.ObjectId(req.body.id);
     const filter = {'user_id._id': userId};
     let favourites = await favouriteInstance.find(filter);
@@ -26,16 +27,20 @@ module.exports.addFavourite = [
         }).catch(err => {
           console.log("error saving new favourite: ", err);
         });
+      // Include the newly favourited char
+      favourites = await favouriteInstance.find(filter);
     }
 
-    // Add again
-    favourites = await favouriteInstance.find(filter);
-    const charName = req.body.character.toLowerCase();
+    const charId = req.body.character;
+    // console.log(charId);
     let characters = favourites[0].characters;
-    const index = characters.indexOf(charName);
+    // console.log("characters", characters);
+    const index = characters.indexOf(charId);
+    // console.log("index", index);
     if (index === -1) { // if char not found, add to users' favourites
-      characters.push(charName);
+      characters.push(charId);
       const update = {'characters': characters};
+      console.log(characters);
       const doc = await favouriteInstance.findOneAndUpdate(filter, update);
     } else {
       console.log("no update needed");
@@ -46,14 +51,14 @@ module.exports.addFavourite = [
 
 module.exports.deleteFavourite = [
   asyncHandler(async (req, res, next) => {
-    console.log("goes to delete");
+    // console.log("goes to delete");
     const userId = new mongoose.Types.ObjectId(req.body.id);
     const filter = {'user_id._id': userId};
     const favourites = await favouriteInstance.find(filter);
 
-    const charName = req.body.character.toLowerCase();
+    const charId = req.body.character;
     let characters = favourites[0].characters;
-    const index = characters.indexOf(charName);
+    const index = characters.indexOf(charId);
     if (index > -1) { // if found, delete from users' favourites
       characters.splice(index, 1);
       console.log(characters);
