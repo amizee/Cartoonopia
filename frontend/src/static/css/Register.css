@@ -5,6 +5,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 20vh; /* Adjust vertical margin to center vertically */
+    background-color: white;
   }
   
   .register-container h2 {
@@ -17,6 +18,10 @@
   
   .btn-register {
     width: 100%; /* Make the button full-width */
+    width: 100%;
+    border: none;
+    padding: 15px 32px;
+    background-color: rgb(209, 209, 209);
   }
   
   .text-center {

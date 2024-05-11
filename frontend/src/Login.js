@@ -44,6 +44,7 @@ const Login = () => {
 
   return (
     <div>
+          <div class="background-image-blur-whitewash"></div>
           <div className="login-container">
             <h2 className="text-center">Welcome</h2>
             <Form onSubmit={(e) => handleSubmit(e)}>
@@ -65,7 +66,7 @@ const Login = () => {
                 />
               </Form.Group>
 
-              <Button type="submit" block className="btn-login">Login</Button>
+              <button type="submit" block className="btn-login">Login</button>
             </Form>
 
             <div className="text-center">
