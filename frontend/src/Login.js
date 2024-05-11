@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,14 @@ const Login = () => {
   };
   
   const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    {user ? (
+      navigate('/home')
+    ) : (
+      navigate('/')
+    )}
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
