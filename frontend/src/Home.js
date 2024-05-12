@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import api from './api.js';
 import { BrowserRouter, Link, useNavigate } from 'react-router-dom';
 import { Card, Button, Table, Row, Col, ListGroup} from "react-bootstrap";
 import {MdDelete} from "react-icons/md";
-import { IconContext } from "react-icons";
-import { IoIosHeartEmpty } from "react-icons/io";
+
 
 import './static/css/App.css';
 import './static/css/Home.css';
@@ -50,13 +48,7 @@ function Favourites({ userId }) {
                 <Card.Img
                   className="fav-img"
                   variant="top"
-                  src={(() => {
-                    try {
-                      return require(`./static/${favourites[key][0].image_url}`);
-                    } catch (error) {
-                      return require('./static/images/placeholder.png');
-                    }
-                  })()}
+                  src={`/${favourites[key][0].image_url}`}
                   alt={key}
                 />
                 <Card.Body>
@@ -273,7 +265,7 @@ function SearchBar({searchInput, onInputChange}) {
   );
 }
 
-function Comparisons({searchInput, onInputChange}) {
+/* function Comparisons({searchInput, onInputChange}) {
   const [characters, setCharacters] = useState([]);
   // some rows have the same key e.g. key={asd} because their names/ids are the same => need validation
   useEffect(() => {
@@ -349,12 +341,22 @@ function Comparisons({searchInput, onInputChange}) {
       </div>
   </div>
   );
-}
+} */
 
 function Home() {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState('');
   const [searchCharInput, setSearchCharInput] = useState('');
+
+  const [previousComparisons, setPreviousComparisons] = useState([]);
+
+  useEffect(() => {
+      // Load previous comparisons from localStorage
+      const storedComparisons = JSON.parse(localStorage.getItem('previousComparisons'));
+      if (storedComparisons) {
+          setPreviousComparisons(storedComparisons);
+      }
+  }, []);
 
   return (
     <div className="App">
@@ -364,10 +366,25 @@ function Home() {
       <body className="body-class">
       <div className="background-image-blur-whitewash"></div>
       <Favourites userId={JSON.parse(localStorage.getItem('user')).id}/>
+      <div className="home-container" id="home-container">
+          <h2>Previous Comparisons</h2>
+          <table id="prev-table" className="prev-table">
+              <tbody>
+                  {previousComparisons.map((comparison, index) => (
+                      <tr key={index}>
+                          <td>
+                              <p>{comparison[0].name} vs {comparison[1].name}</p>
+                          </td>
+                      </tr>
+                  ))}
+              </tbody>
+          </table>
+      </div>
       <Contributions userId={JSON.parse(localStorage.getItem('user')).id} isProfile={false}/>
       <SearchBar searchInput={searchInput} onInputChange={setSearchInput}/>
-      <Comparisons searchInput={searchCharInput} onInputChange={setSearchCharInput}/>
-      </body>
+      
+{/*       <Comparisons searchInput={searchCharInput} onInputChange={setSearchCharInput}/>
+ */}      </body>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import Contributions from './Contributions';
 import History from './History.js';
 import Protected from './Protected';
 import UserProfile from "./UserProfile";
+import Comparison from "./Comparison";
 
 function App() {
   
@@ -18,7 +19,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element = {<Protected/>}>
-          <Route path='/home' element={<Home/>}/>
+          <Route path='/home' element={<Comparison/>}/>
+          <Route path='/user' element={<Home/>}/>
           <Route exact path="/allchar" element={ <Allcharacters/> } />
           <Route path="/allchar/:id" element={ <Characterpage/> } />
           <Route path="/allchar/:id/edit" element={ <EditCharacter/> } />
@@ -29,6 +31,7 @@ function App() {
         </Route>
         <Route path="/" element={<Login/>} />
         <Route path="/register" element={<Register />} />
+        <Route path="/comparison" element={ <Comparison/> } />
       </Routes>
     </BrowserRouter>
   );

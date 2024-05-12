@@ -1,0 +1,443 @@
+﻿/* h1, h2, h3, nav, footer {
+ font-family: Georgia, Cambria, "Times New Roman", serif;
+} */
+body {
+   font-family: "Lucida Sans", Verdana, Arial, sans-serif;
+   font-size: 80%;
+}
+
+.title {
+   text-align: center;
+   color: white;
+   background-color: #1f1f1f;
+   margin-bottom: 20px;
+}
+
+.title h1 {
+   font-size: 100px;
+   vertical-align: top;
+   margin-bottom: 0;
+   font-weight: bold;
+   margin-top: 0;
+}
+
+.title h4 {
+   padding-bottom: 20px;
+   font-weight: normal;
+}
+
+.box {
+   border: 1px solid #000000;
+   padding: 20px;
+   margin: 10px;
+}
+
+.comp-container {
+   display: flex;
+   flex-direction: row;
+}
+
+.slider-section {
+   position: relative;
+   background-color: transparent !important;
+   border: none !important;
+   box-shadow: none !important;
+}
+
+/* Styling slider value in thumb */
+.slider-value {
+   position: relative;
+   color: #1f1f1f;
+   font-size: 9px;
+   font-weight: bold;
+   bottom: 100%;
+   z-index: 3;
+   margin-left: 12.5px;
+   text-align: center;
+   pointer-events: none;
+
+   width: 1px;
+   white-space: nowrap;
+   overflow: visible;
+
+   display: flex;
+   justify-content: center;
+   vertical-align: middle;
+   text-align: center;
+}
+
+.slider .slider-2 {
+   position: absolute;
+}
+
+/* Customize Sliders Styles */
+input[type="range"] {
+   -webkit-appearance: none;
+   appearance: none;
+   width: 45%;
+   cursor: pointer;
+
+   position: absolute;
+   pointer-events: none;
+
+   height: 2px;
+   background: rgba(242, 242, 242, 0.7);
+   border-radius: 16px;
+
+}
+
+input[type="range"]::-webkit-slider-thumb {
+   appearance: none;
+   -webkit-appearance: none;
+
+   pointer-events: all;
+   z-index: 2;
+
+   height: 20px;
+   width: 20px;
+   background-color: white;
+   border-radius: 50%;
+   border: 2px solid #1f1f1f;
+
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+   -webkit-appearance: none;
+   appearance: none;
+   color: rgba(242, 242, 242, 0.1);
+
+   z-index: 1;
+}
+
+/* Styling filler area in sliders */
+.filler {
+   position: relative;
+   top: -18px;
+   left: 0;
+   height: 2px;
+   background-color: #1f1f1f;
+   z-index: 0;
+}
+
+/* Styling side divs */
+.slider-section, .prev-comparisons {
+   height: auto;
+   flex: 0.15;
+   flex-direction: column;
+   border: solid 2pt rgb(85, 85, 85);
+   margin-left: 50px;
+   margin-right: 50px;
+   margin-top: 40px;
+   color: rgb(85, 85, 85);
+   background-color: white;
+   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.2);
+ }
+
+.slider-section h2, .prev-comparisons h2 {
+   font-family:Arial, Helvetica, sans-serif;
+   font-size: 12.8px;
+   text-align: left;
+   padding-left: 10%;
+   padding-bottom: 5%;
+}
+
+/* Formatting partial borders */
+.slider-section h2::before,
+.prev-comparisons h2::before {
+   content: "";
+   display: block;
+   border-bottom: solid 1px rgba(116, 116, 116, 0.4);
+   width: 50%;
+   position: relative;
+   top: 24px;
+}
+
+.prev-comparisons-table:hover {
+   cursor: pointer;
+}
+
+.slider-section h2::after, .prev-comparisons h2::after {
+   content: "";
+   position: absolute;
+   bottom: 0;
+   left: 10%;
+   width: 30%;
+}
+
+/* Styling main character table */
+.search-table {
+   flex: 0.8;
+}
+
+.search-table #search-input {
+   width: 100%;
+   margin: 0 auto;
+   margin-bottom: 10px;
+   border: 2px solid #1f1f1f;
+   display: flex;
+   height: 40px;
+   flex: 1;
+   text-indent: 10px;
+}
+
+.search-table #search-input::placeholder {
+   font-weight: bold;
+}
+
+.filter-table {
+   text-align: left;
+   padding-left: 5%;
+}
+
+#filter-table th {
+   padding: 5px;
+}
+
+.character-table1 tr:first-child td {
+   padding-top: 12px;
+   padding-bottom: 0px;
+   font-weight: bold;
+}
+
+
+/* Select header row of the character table */
+.character-table1 tr:first-child th {
+   text-align: left;
+   padding-top: 16px;
+   padding-left: 16px;
+   padding-bottom: 8px;
+   background-color: rgba(242, 242, 242, 0.3);
+}
+
+.character-table1 td:not(:first-child) {
+   text-align: right;
+}
+
+#character-table1 {
+   width: 100%;
+   border-collapse: collapse;
+   padding: 10px;
+}
+
+#character-table1 td {
+   padding: 10px;
+   font-weight: bold;
+   border-left: none !important;
+   border-right: none !important;
+}
+
+
+
+#character-table1 tr:not(.header) {
+   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+#character-table1 input[type="checkbox"] {
+   appearance: none;
+   width: 80%;
+   display: grid;
+   place-content: center;
+   position: relative;
+   cursor: pointer;
+   vertical-align: middle;
+}
+
+#character-table1 input[type="checkbox"]::before {
+   content: "\2713";
+   font-weight: bold;
+   font-size: 23px;
+   font-family: "Anonymous Pro", monospace;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   width: 30px;
+   height: 30px;
+   transform: scale(0);
+   border: 2px solid black;
+}
+
+#character-table1 input[type="checkbox"]:checked::before {
+   transform: scale(1);
+}
+
+
+
+
+/* Editing checkboxes style */
+input[type="checkbox"] {
+   appearance: none;
+   margin: 0;
+   width: 28px;
+   /* height: 28px; */
+   display: grid;
+   place-content: center;
+   position: relative;
+   cursor: pointer;
+   vertical-align: middle;
+   margin-bottom: 4px;
+}
+
+input[type="checkbox"]::before {
+   content: "\2713";
+   font-weight: bold;
+   font-size: 23px;
+   font-family: "Anonymous Pro", monospace;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   width: 30px;
+   height: 30px;
+   transform: scale(0);
+   border: 2px solid black;
+}
+
+input[type="checkbox"]:checked::before {
+   transform: scale(1);
+}
+ 
+.header {
+   border-bottom: 2px solid black;
+}
+
+.character-table tr:not(.header) {
+   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Styling previous comparisons table */
+#prev-comparisons-table {
+   width: 100%;
+   border-collapse: collapse;
+   font-weight: bold;
+}
+
+#prev-comparisons-table tr:hover {
+   background-color: beige;
+   cursor: pointer;
+}
+
+#prev-comparisons-table tbody tr td:first-child {
+   text-align: left;
+   padding-left: 16px;
+}
+
+#prev-comparisons-table tbody tr td:last-child {
+   text-align: right;
+   padding-right: 16px;
+}
+
+#prev-comparisons-table tbody tr td {
+   padding: 20px;
+}
+
+#character-table {
+   width: 100%;
+   border-collapse: collapse;
+   padding: 10px;
+}
+
+
+/* Display character portraits */
+.character-display-container {
+   display: flex;
+   margin-top: 5%;
+   margin-bottom: 5%;
+   align-items: center;
+   justify-content: center;
+   height: 35vh;
+   background-color: #1f1f1f;
+   color: white;
+   column-count: 3;
+   column-gap: 20px;
+}
+
+.selected-1, .selected-2 {
+   break-inside: avoid-column;
+   width: 25%;
+   padding-top: 30px;
+   text-align: center;
+   justify-content: center;
+
+   position: relative;
+}
+
+.selected-1 #char-name,
+.selected-2 #char-name {
+   display: flex;
+   text-align: center;
+   justify-content: center;
+   padding-bottom: 10px;
+   font-size: 30px;
+   box-decoration-break: clone;
+
+}
+
+.vs {
+   font-size: 100px;
+   font-family: Arial, Helvetica, sans-serif;
+   break-inside: avoid-column;
+   width: 5%;
+   padding-top: 30px;
+   text-align: center;
+   justify-content: center;
+}
+
+/* Styling image displayed */
+.selected-1 img,
+.selected-2 img {
+   border-radius: 50%;
+   max-width: 100%;
+   height: 200px;
+   width: 200px;
+   display: inline-block;
+   object-fit: cover;
+
+   position: relative;
+   vertical-align: top;
+}
+
+.selected-1 img {
+   align-items: right;
+   justify-content: right;
+}
+
+.selected-1 #placeholder {
+   background-size: 10% 10%;
+}
+
+/* Comparison Code */
+.comparison {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+}
+
+.comparison tr td {
+   text-align: center;
+   vertical-align: middle;
+}
+
+.comparison-table {
+   border-collapse: collapse;
+   font-weight: bold;
+   font-size: 26px;
+   text-transform: uppercase;
+   color: white;
+   margin-bottom: 30px;
+}
+
+.stats-cell {
+   background-color: #1f1f1f;
+   height: 60px;
+   width: 200px;
+}
+
+.chars-cell,
+.chars-cell-2 {
+   height: 60px;
+   width: 350px;
+}

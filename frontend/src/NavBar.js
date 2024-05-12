@@ -7,6 +7,7 @@ function NavBar() {
 
     const onButtonClickLogOut = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('previousComparisons');
         navigate('/');
     };
 
@@ -14,7 +15,7 @@ function NavBar() {
         <div className="top-bar">
             <h1 className="logo-title">Cartoonopia!</h1>
             <button className="nav-button" onClick={() => navigate('/home')}>Home</button>
-            <button className="nav-button" onClick={() => navigate('/home')}>Users</button>
+            <button className="nav-button" onClick={() => navigate('/user')}>User</button>
             <button className="nav-button" onClick={() => navigate('/allchar')}>Characters</button>
             {user.isAdmin ? (
                 <button className="nav-button" onClick={() => navigate('/contributions')}>Contributions</button>
