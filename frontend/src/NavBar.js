@@ -7,6 +7,7 @@ function NavBar() {
 
     const onButtonClickLogOut = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('previousComparisons');
         navigate('/');
     };
 

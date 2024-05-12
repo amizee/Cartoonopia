@@ -39,6 +39,9 @@ body {
 
 .slider-section {
    position: relative;
+   background-color: transparent !important;
+   border: none !important;
+   box-shadow: none !important;
 }
 
 /* Styling slider value in thumb */
@@ -190,17 +193,15 @@ input[type="range"]::-webkit-slider-runnable-track {
    padding: 5px;
 }
 
-.character-table tr:first-child td {
-   padding-left: 16px;
+.character-table1 tr:first-child td {
    padding-top: 12px;
    padding-bottom: 0px;
-   text-align: left;
    font-weight: bold;
 }
 
 
 /* Select header row of the character table */
-.character-table tr:first-child th {
+.character-table1 tr:first-child th {
    text-align: left;
    padding-top: 16px;
    padding-left: 16px;
@@ -208,9 +209,61 @@ input[type="range"]::-webkit-slider-runnable-track {
    background-color: rgba(242, 242, 242, 0.3);
 }
 
-.character-table td:not(:first-child) {
+.character-table1 td:not(:first-child) {
    text-align: right;
 }
+
+#character-table1 {
+   width: 100%;
+   border-collapse: collapse;
+   padding: 10px;
+}
+
+#character-table1 td {
+   padding: 10px;
+   font-weight: bold;
+   border-left: none !important;
+   border-right: none !important;
+}
+
+
+
+#character-table1 tr:not(.header) {
+   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+#character-table1 input[type="checkbox"] {
+   appearance: none;
+   width: 80%;
+   display: grid;
+   place-content: center;
+   position: relative;
+   cursor: pointer;
+   vertical-align: middle;
+}
+
+#character-table1 input[type="checkbox"]::before {
+   content: "\2713";
+   font-weight: bold;
+   font-size: 23px;
+   font-family: "Anonymous Pro", monospace;
+
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   width: 30px;
+   height: 30px;
+   transform: scale(0);
+   border: 2px solid black;
+}
+
+#character-table1 input[type="checkbox"]:checked::before {
+   transform: scale(1);
+}
+
+
+
 
 /* Editing checkboxes style */
 input[type="checkbox"] {
@@ -277,7 +330,7 @@ input[type="checkbox"]:checked::before {
 }
 
 #prev-comparisons-table tbody tr td {
-   padding-bottom: 16px;
+   padding: 20px;
 }
 
 #character-table {
@@ -285,6 +338,7 @@ input[type="checkbox"]:checked::before {
    border-collapse: collapse;
    padding: 10px;
 }
+
 
 /* Display character portraits */
 .character-display-container {
@@ -382,7 +436,8 @@ input[type="checkbox"]:checked::before {
    width: 200px;
 }
 
-.chars-cell {
+.chars-cell,
+.chars-cell-2 {
    height: 60px;
    width: 350px;
 }

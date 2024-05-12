@@ -31,6 +31,7 @@ const Login = () => {
       .then((r) => {
         if (r.data.success) {
           localStorage.setItem('user', JSON.stringify({ email, token: r.data.token, id: r.data.id, isAdmin: r.data.admin}))
+          
           navigate('/home');
         } else {
           window.alert('Email or password incorrect');
@@ -72,6 +73,8 @@ const Login = () => {
               <span>Don't have an account? </span>
               <Button variant="link" onClick={onButtonClickSignup}>Sign up for free</Button>
             </div>
+
+            
           </div>
         
     </div>

@@ -48,13 +48,7 @@ function Favourites({ userId }) {
                 <Card.Img
                   className="fav-img"
                   variant="top"
-                  src={(() => {
-                    try {
-                      return require(`./static/${favourites[key][0].image_url}`);
-                    } catch (error) {
-                      return require('./static/images/placeholder.png');
-                    }
-                  })()}
+                  src={`/${favourites[key][0].image_url}`}
                   alt={key}
                 />
                 <Card.Body>
@@ -359,6 +353,16 @@ function Home() {
   const [searchInput, setSearchInput] = useState('');
   const [searchCharInput, setSearchCharInput] = useState('');
 
+  const [previousComparisons, setPreviousComparisons] = useState([]);
+
+  useEffect(() => {
+      // Load previous comparisons from localStorage
+      const storedComparisons = JSON.parse(localStorage.getItem('previousComparisons'));
+      if (storedComparisons) {
+          setPreviousComparisons(storedComparisons);
+      }
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -367,8 +371,23 @@ function Home() {
       <body className="body-class">
       <div className="background-image-blur-whitewash"></div>
       <Favourites userId={JSON.parse(localStorage.getItem('user')).id}/>
+      <div className="home-container" id="home-container">
+          <h2>Previous Comparisons</h2>
+          <table id="prev-table" className="prev-table">
+              <tbody>
+                  {previousComparisons.map((comparison, index) => (
+                      <tr key={index}>
+                          <td>
+                              <p>{comparison[0].name} vs {comparison[1].name}</p>
+                          </td>
+                      </tr>
+                  ))}
+              </tbody>
+          </table>
+      </div>
       <Contributions userId={JSON.parse(localStorage.getItem('user')).id} isProfile={false}/>
       <SearchBar searchInput={searchInput} onInputChange={setSearchInput}/>
+      
 {/*       <Comparisons searchInput={searchCharInput} onInputChange={setSearchCharInput}/>
  */}      </body>
     </div>

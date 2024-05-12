@@ -13,6 +13,7 @@ function Allcharacters() {
   useEffect(() => {
     async function fetchCharacters() {
       try {
+        console.log("allchar localstorage: ", localStorage);
         const user = JSON.parse(localStorage.getItem('user'));
         const response = await api.get('/allchar', { headers: {"Authorization" : `Bearer ${user.token}`} });
         console.log(response);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {BrowserRouter, Link, useNavigate, useParams} from 'react-router-dom';
 import { Favourites, Contributions } from './Home';
+import { Card, Button, Table, Row, Col, ListGroup} from "react-bootstrap";
 
 import './static/css/App.css';
 
@@ -11,6 +12,7 @@ function UserProfile(props) {
   const { isProfile } = props;
   const [id, setId] = useState('');
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     async function getUserId() {
@@ -51,7 +53,11 @@ function UserProfile(props) {
       <div className="background-image-blur-whitewash"></div>
       <Favourites userId={id} />
       <Contributions userId={id} isProfile={isProfile} />
+      
+
       </body>
+
+      
     </div>
   );
 }
