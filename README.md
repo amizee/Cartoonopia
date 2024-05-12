@@ -1,5 +1,7 @@
 # Lab-4-Group5-A2
 
+FOR MARKER: CONTRIBUTOR "VERCHENDISE" IS JOSHUA LI (JOLI6799), IT IS THERE BECAUSE WE USED VSCODE LIVESHARE IN SOME INSTANCES
+
 ## Installing
 
 Go to https://www.mongodb.com/try/download/shell and install MongoDB Compass (GUI).
