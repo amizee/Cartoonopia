@@ -255,11 +255,6 @@ function SearchBar({searchInput, onInputChange}) {
                   <Link id="user-link" to={`/users/${user.user.firstname}-${user.user.lastname}`}>{user.user.firstname + " " + user.user.lastname}</Link>
                 </div>
               )}
-
-              
-
-              
-
             </ListGroup.Item>
           ))}
         </ListGroup>
