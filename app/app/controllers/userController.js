@@ -107,6 +107,9 @@ exports.login_user = [
 
 async function getUsernameById(userId) {
     const user = await UserInstance.findOne({_id: userId});
+    if (user === null) {
+        return "deleted user";
+    }
     return user.firstname + " " + user.lastname;
 }
 
